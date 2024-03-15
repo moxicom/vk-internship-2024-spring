@@ -54,13 +54,12 @@ func (h *handler) getActor(w http.ResponseWriter, r *http.Request, actorId int) 
 
 func (h *handler) addActor(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("get actors request")
-
+	// Decode JSON body
 	var actor models.Actor
 	if err := json.NewDecoder(r.Body).Decode(&actor); err != nil {
 		http.Error(w, "Failed to parse JSON body", http.StatusBadRequest)
 		return
 	}
-
 	// Validate JSON body
 	validate := validator.New()
 	if err := validate.Struct(actor); err != nil {
@@ -68,6 +67,27 @@ func (h *handler) addActor(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+	// Insert data
+	actorId, err := h.service.Actors.AddActor(actor)
+	if err != nil {
+		h.log.Error(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	h.log.Debug("inserted id", "id", actorId)
+	response := struct {
+		ID int `json:"id"`
+	}{actorId}
+
+	jsonResponse, err := json.Marshal(response)
+	if err != nil {
+		http.Error(w, "Failed to create JSON response", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+	w.Write(jsonResponse)
 }
 
 func (h *handler) updateActor(w http.ResponseWriter, r *http.Request) {

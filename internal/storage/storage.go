@@ -4,11 +4,12 @@ import (
 	"database/sql"
 
 	"github.com/moxicom/vk-internship-2024-spring/internal/models"
-	"github.com/moxicom/vk-internship-2024-spring/internal/storage/postgres"
+	"github.com/moxicom/vk-internship-2024-spring/internal/storage/postgres/actors_storage"
 )
 
 type Actors interface {
 	GetActors() ([]models.ActorFilm, error)
+	AddActor(models.Actor) (int, error)
 }
 
 type Movies interface {
@@ -21,6 +22,6 @@ type Repository struct {
 
 func New(db *sql.DB) *Repository {
 	return &Repository{
-		Actors: postgres.NewActorsStorage(db),
+		Actors: actors_storage.New(db),
 	}
 }

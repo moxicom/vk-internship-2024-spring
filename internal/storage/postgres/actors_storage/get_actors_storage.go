@@ -1,4 +1,4 @@
-package postgres
+package actors_storage
 
 import (
 	"database/sql"
@@ -10,7 +10,7 @@ type actorsStorage struct {
 	db *sql.DB
 }
 
-func NewActorsStorage(db *sql.DB) *actorsStorage {
+func New(db *sql.DB) *actorsStorage {
 	return &actorsStorage{db}
 }
 
@@ -44,10 +44,6 @@ func (s *actorsStorage) GetActors() ([]models.ActorFilm, error) {
 	return actors, nil
 }
 
-func (s *actorsStorage) AddActor() error {
-	return nil
-}
-
 func (s *actorsStorage) getActorFilmsIDs(actorID int) ([]int, error) {
 	// Get all filst of user
 	movieRows, err := s.db.Query("SELECT movie_id from movie_actors WHERE actor_id=$1", actorID)
@@ -70,3 +66,5 @@ func (s *actorsStorage) getActorFilmsIDs(actorID int) ([]int, error) {
 	}
 	return movies, nil
 }
+
+// func (s *actorsStorage)
