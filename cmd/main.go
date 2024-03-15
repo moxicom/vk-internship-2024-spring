@@ -29,7 +29,7 @@ func main() {
 		PostgresPort:     "5432",
 		PostgresUser:     "postgres",
 		PostgresPassword: "postgres",
-		PostgresName:     "postgres",
+		PostgresName:     "mydatabase",
 		PostgresSSLMode:  "disable",
 	})
 	if err != nil {
