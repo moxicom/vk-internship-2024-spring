@@ -8,11 +8,7 @@ import (
 	"github.com/moxicom/vk-internship-2024-spring/internal/models"
 )
 
-type Storage struct {
-	db *sql.DB
-}
-
-func New(postgresConfig models.PostgresConfig) (*Storage, error) {
+func New(postgresConfig models.PostgresConfig) (*sql.DB, error) {
 	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		postgresConfig.PostgresHost,
 		postgresConfig.PostgresPort,
@@ -23,14 +19,14 @@ func New(postgresConfig models.PostgresConfig) (*Storage, error) {
 	)
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
-		return &Storage{}, err
+		return &sql.DB{}, err
 	}
 	if err = db.Ping(); err != nil {
-		return &Storage{}, err
+		return &sql.DB{}, err
 	}
 	_, err = db.Query("SELECT * FROM users;")
 	if err != nil {
-		return &Storage{}, err
+		return &sql.DB{}, err
 	}
-	return &Storage{db}, nil
+	return db, nil
 }

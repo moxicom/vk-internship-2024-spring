@@ -1,11 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"log/slog"
 	"os"
 
+	"github.com/moxicom/vk-internship-2024-spring/internal/handlers"
 	"github.com/moxicom/vk-internship-2024-spring/internal/models"
+	"github.com/moxicom/vk-internship-2024-spring/internal/service"
+	"github.com/moxicom/vk-internship-2024-spring/internal/storage"
 	"github.com/moxicom/vk-internship-2024-spring/internal/storage/postgres"
 )
 
@@ -24,7 +26,7 @@ func main() {
 	log.Debug("debug mode enabled")
 
 	// TODO: init storage: postgres
-	storage, err := postgres.New(models.PostgresConfig{
+	db, err := postgres.New(models.PostgresConfig{
 		PostgresHost:     "localhost",
 		PostgresPort:     "5432",
 		PostgresUser:     "postgres",
@@ -36,9 +38,18 @@ func main() {
 		log.Error(err.Error())
 		os.Exit(1)
 	}
-	fmt.Println(storage)
+
+	storage := storage.New(db)
+
+	// TODO: init service
+	service := service.New(storage)
 
 	// TODO: init router
+	log.Info("initializing routes...")
+	if err := handlers.Run(log, service); err != nil {
+		log.Error(err.Error())
+		os.Exit(1)
+	}
 
 	// TODO: run server
 
