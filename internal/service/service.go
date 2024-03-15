@@ -5,6 +5,8 @@ import (
 	"github.com/moxicom/vk-internship-2024-spring/internal/storage"
 )
 
+//go:generate mockgen -source=service.go -destination=mocks/mock.go
+
 type Actors interface {
 	GetActors() ([]models.ActorFilm, error)
 	AddActor(models.Actor) (int, error)

@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	"time"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/moxicom/vk-internship-2024-spring/internal/models"
@@ -67,6 +68,13 @@ func (h *handler) addActor(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+	_, err := time.Parse("2006-01-02", actor.BirthDay)
+	if err != nil {
+		h.log.Error(err.Error())
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
 	// Insert data
 	actorId, err := h.service.Actors.AddActor(actor)
 	if err != nil {
