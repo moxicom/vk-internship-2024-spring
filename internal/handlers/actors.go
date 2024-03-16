@@ -54,11 +54,11 @@ func (h *handler) getActor(w http.ResponseWriter, r *http.Request, actorId int) 
 }
 
 func (h *handler) addActor(w http.ResponseWriter, r *http.Request) {
-	h.log.Info("get actors request")
+	h.log.Info("add actor request")
 	// Decode JSON body
 	var actor models.Actor
 	if err := json.NewDecoder(r.Body).Decode(&actor); err != nil {
-		http.Error(w, "Failed to parse JSON body", http.StatusBadRequest)
+		http.Error(w, jsonParseErr, http.StatusBadRequest)
 		return
 	}
 	// Validate JSON body
@@ -99,7 +99,45 @@ func (h *handler) addActor(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *handler) updateActor(w http.ResponseWriter, r *http.Request) {
-	h.log.Info("get actors request")
+	h.log.Info("update actors request")
+	// Check actor id existance in URL
+	idPath := r.URL.Path[len(actorsPath):]
+	if len(idPath) == 0 {
+		h.log.Error("Invalid actor id")
+		http.Error(w, "Invalid actor id", http.StatusBadRequest)
+		return
+	}
+	// Get actor id
+	actorId, err := getIdByPrefix(idPath)
+	if err != nil {
+		h.log.Error(err.Error())
+		http.Error(w, "Invalid actor id", http.StatusBadRequest)
+		return
+	}
+	// Decode JSON body
+	var actor models.ActorFilm
+	if err := json.NewDecoder(r.Body).Decode(&actor); err != nil {
+		h.log.Error(err.Error())
+		http.Error(w, jsonParseErr, http.StatusBadRequest)
+		return
+	}
+	// Validate time if it is not empty
+	if actor.BirthDay != "" {
+		_, err := time.Parse("2006-01-02", actor.BirthDay)
+		if err != nil {
+			h.log.Error(err.Error())
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+	}
+	// Update data
+	err = h.service.Actors.UpdateActor(actorId, actor)
+	if err != nil {
+		h.log.Error(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
 }
 
 func (h *handler) deleteActor(w http.ResponseWriter, r *http.Request) {

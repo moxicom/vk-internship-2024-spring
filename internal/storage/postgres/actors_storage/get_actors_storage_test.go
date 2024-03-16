@@ -28,11 +28,11 @@ func TestActorsStorage_GetActors(t *testing.T) {
 		{
 			name: "OK",
 			mock: func() {
-				rows := sqlmock.NewRows([]string{"actor_id", "name", "isMale", "date_of_birth"}).
-					AddRow(1, "John", true, "1990-01-01").
-					AddRow(2, "Emma", false, "1985-05-12")
+				rows := sqlmock.NewRows([]string{"actor_id", "name", "gender", "date_of_birth"}).
+					AddRow(1, "John", "male", "1990-01-01").
+					AddRow(2, "Emma", "female", "1985-05-12")
 
-				mock.ExpectQuery("SELECT actor_id, name, isMale, date_of_birth FROM actors").WillReturnRows(rows)
+				mock.ExpectQuery("SELECT actor_id, name, gender, date_of_birth FROM actors").WillReturnRows(rows)
 				mock.ExpectQuery("SELECT movie_id from movie_actors WHERE actor_id=?").WithArgs(1).WillReturnRows(sqlmock.NewRows([]string{"movie_id"}).AddRow(101))
 				mock.ExpectQuery("SELECT movie_id from movie_actors WHERE actor_id=?").WithArgs(2).WillReturnRows(sqlmock.NewRows([]string{"movie_id"}).AddRow(102))
 			},
@@ -41,7 +41,7 @@ func TestActorsStorage_GetActors(t *testing.T) {
 					Actor: models.Actor{
 						ID:       1,
 						Name:     "John",
-						IsMale:   true,
+						Gender:   "male",
 						BirthDay: "1990-01-01",
 					},
 					Movies: []int{
@@ -52,7 +52,7 @@ func TestActorsStorage_GetActors(t *testing.T) {
 					Actor: models.Actor{
 						ID:       2,
 						Name:     "Emma",
-						IsMale:   false,
+						Gender:   "female",
 						BirthDay: "1985-05-12",
 					},
 					Movies: []int{
@@ -65,7 +65,7 @@ func TestActorsStorage_GetActors(t *testing.T) {
 		{
 			name: "Database Query Error",
 			mock: func() {
-				mock.ExpectQuery("SELECT actor_id, name, isMale, date_of_birth FROM actors").WillReturnError(errors.New("database error"))
+				mock.ExpectQuery("SELECT actor_id, name, gender, date_of_birth FROM actors").WillReturnError(errors.New("database error"))
 			},
 			wantError: true,
 		},

@@ -37,7 +37,7 @@ func TestActorsStorage_AddActor(t *testing.T) {
 			args: args{
 				actor: models.Actor{
 					Name:     "Alexander",
-					IsMale:   true,
+					Gender:   "male",
 					BirthDay: "2004-14-12",
 				},
 			},
@@ -45,7 +45,7 @@ func TestActorsStorage_AddActor(t *testing.T) {
 			mockBehavior: func(args args, id int) {
 				mock.ExpectBegin()
 				rows := mock.NewRows([]string{"actor_id"}).AddRow(id)
-				mock.ExpectQuery("INSERT INTO actors").WithArgs(args.actor.Name, args.actor.IsMale, args.actor.BirthDay).WillReturnRows(rows)
+				mock.ExpectQuery("INSERT INTO actors").WithArgs(args.actor.Name, args.actor.Gender, args.actor.BirthDay).WillReturnRows(rows)
 				mock.ExpectCommit()
 			},
 		},
@@ -61,7 +61,7 @@ func TestActorsStorage_AddActor(t *testing.T) {
 			args: args{
 				actor: models.Actor{
 					Name:     "Emma",
-					IsMale:   false, // Female actor
+					Gender:   "female", // Female actor
 					BirthDay: "1990-05-20",
 				},
 			},
@@ -69,7 +69,7 @@ func TestActorsStorage_AddActor(t *testing.T) {
 			mockBehavior: func(args args, id int) {
 				mock.ExpectBegin()
 				rows := mock.NewRows([]string{"actor_id"}).AddRow(id)
-				mock.ExpectQuery("INSERT INTO actors").WithArgs(args.actor.Name, args.actor.IsMale, args.actor.BirthDay).WillReturnRows(rows)
+				mock.ExpectQuery("INSERT INTO actors").WithArgs(args.actor.Name, args.actor.Gender, args.actor.BirthDay).WillReturnRows(rows)
 				mock.ExpectCommit()
 			},
 		},
@@ -78,7 +78,7 @@ func TestActorsStorage_AddActor(t *testing.T) {
 			args: args{
 				actor: models.Actor{
 					Name:     "James",
-					IsMale:   true,
+					Gender:   "male",
 					BirthDay: "", // Null birth date
 				},
 			},
@@ -86,7 +86,7 @@ func TestActorsStorage_AddActor(t *testing.T) {
 			mockBehavior: func(args args, id int) {
 				mock.ExpectBegin()
 				rows := mock.NewRows([]string{"actor_id"}).AddRow(id)
-				mock.ExpectQuery("INSERT INTO actors").WithArgs(args.actor.Name, args.actor.IsMale, args.actor.BirthDay).WillReturnRows(rows)
+				mock.ExpectQuery("INSERT INTO actors").WithArgs(args.actor.Name, args.actor.Gender, args.actor.BirthDay).WillReturnRows(rows)
 				mock.ExpectCommit()
 			},
 		},

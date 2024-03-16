@@ -36,7 +36,7 @@ func TestHandler_getActors(t *testing.T) {
 						Actor: models.Actor{
 							ID:       1,
 							Name:     "John",
-							IsMale:   true,
+							Gender:   "male",
 							BirthDay: "1990-01-01",
 						},
 						Movies: []int{
@@ -47,7 +47,7 @@ func TestHandler_getActors(t *testing.T) {
 						Actor: models.Actor{
 							ID:       2,
 							Name:     "Mary",
-							IsMale:   false,
+							Gender:   "female",
 							BirthDay: "1999-01-01",
 						},
 						Movies: []int{
@@ -58,8 +58,8 @@ func TestHandler_getActors(t *testing.T) {
 				}, nil)
 			},
 			expectedStatusCode: 200,
-			expectedResponseBody: strings.TrimSpace(`[{"id":1,"name":"John","is_male":true,"birthday":"1990-01-01","movies":[101]},` +
-				`{"id":2,"name":"Mary","is_male":false,"birthday":"1999-01-01","movies":[103,105]}]`),
+			expectedResponseBody: strings.TrimSpace(`[{"id":1,"name":"John","gender":"male","birthday":"1990-01-01","movies":[101]},` +
+				`{"id":2,"name":"Mary","gender":"female","birthday":"1999-01-01","movies":[103,105]}]`),
 		},
 		{
 			name: "Database error",
@@ -114,11 +114,11 @@ func TestHandler_addActor(t *testing.T) {
 	}{
 		{
 			name:      "OK",
-			inputBody: `{"name": "Alex", "is_male": true, "birthday": "2004-12-14"}`,
+			inputBody: `{"name": "Alex", "gender": "male", "birthday": "2004-12-14"}`,
 			input: models.Actor{
 				ID:       0,
 				Name:     "Alex",
-				IsMale:   true,
+				Gender:   "male",
 				BirthDay: "2004-12-14",
 			},
 			mockBehavior: func(s *mock_service.MockActors, a models.Actor) {

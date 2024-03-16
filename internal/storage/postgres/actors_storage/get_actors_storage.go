@@ -15,7 +15,7 @@ func New(db *sql.DB) *actorsStorage {
 }
 
 func (s *actorsStorage) GetActors() ([]models.ActorFilm, error) {
-	actorsRows, err := s.db.Query("SELECT actor_id, name, isMale, date_of_birth FROM actors")
+	actorsRows, err := s.db.Query("SELECT actor_id, name, gender, date_of_birth FROM actors")
 	if err != nil {
 		return []models.ActorFilm{}, err
 	}
@@ -25,7 +25,7 @@ func (s *actorsStorage) GetActors() ([]models.ActorFilm, error) {
 	for actorsRows.Next() {
 		var actor models.ActorFilm
 		// Scan actor
-		err := actorsRows.Scan(&actor.ID, &actor.Name, &actor.IsMale, &actor.BirthDay)
+		err := actorsRows.Scan(&actor.ID, &actor.Name, &actor.Gender, &actor.BirthDay)
 		if err != nil {
 			return []models.ActorFilm{}, err
 		}

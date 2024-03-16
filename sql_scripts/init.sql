@@ -1,7 +1,7 @@
 CREATE TABLE actors (
     actor_id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    isMale BOOLEAN,
+    gender VARCHAR(255),
     date_of_birth DATE
 );
 

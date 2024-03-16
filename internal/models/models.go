@@ -9,6 +9,6 @@ type User struct {
 type Actor struct {
 	ID       int    `json:"id"`
 	Name     string `json:"name" validate:"required"`
-	IsMale   bool   `json:"is_male"`
+	Gender   string `json:"gender" validate:"required"`
 	BirthDay string `json:"birthday" validate:"required"`
 }
