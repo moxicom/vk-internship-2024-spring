@@ -13,8 +13,12 @@ type handler struct {
 	service *service.Service
 }
 
+func NewHandler(log *slog.Logger, s *service.Service) *handler {
+	return &handler{log, s}
+}
+
 func Run(logger *slog.Logger, s *service.Service) error {
-	handler := &handler{logger, s}
+	handler := NewHandler(logger, s)
 	mux := handler.initRoutes()
 
 	server := &http.Server{
