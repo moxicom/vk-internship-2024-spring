@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"bytes"
 	"errors"
 	"log"
 	"log/slog"
@@ -105,18 +106,26 @@ func TestHandler_addActor(t *testing.T) {
 
 	tests := []struct {
 		name                 string
+		inputBody            string
 		input                models.Actor
 		mockBehavior         func(s *mock_service.MockActors, a models.Actor)
 		expectedStatusCode   int
 		expectedResponseBody string
 	}{
 		{
-			name: "OK",
+			name:      "OK",
+			inputBody: `{"name": "Alex", "is_male": true, "birthday": "2004-12-14"}`,
+			input: models.Actor{
+				ID:       0,
+				Name:     "Alex",
+				IsMale:   true,
+				BirthDay: "2004-12-14",
+			},
 			mockBehavior: func(s *mock_service.MockActors, a models.Actor) {
 				s.EXPECT().AddActor(a).Return(1, nil)
 			},
 			expectedStatusCode:   200,
-			expectedResponseBody: strings.TrimSpace(``),
+			expectedResponseBody: strings.TrimSpace(`{"id":1}`),
 		},
 	}
 
@@ -132,7 +141,7 @@ func TestHandler_addActor(t *testing.T) {
 			handler := NewHandler(slog.Default(), services)
 
 			w := httptest.NewRecorder()
-			r := httptest.NewRequest(http.MethodPost, "/actors/", nil)
+			r := httptest.NewRequest(http.MethodPost, "/actors/", bytes.NewBufferString(testCase.inputBody))
 
 			handler.addActor(w, r)
 			actual := strings.TrimSpace(w.Body.String())
