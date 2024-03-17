@@ -205,6 +205,7 @@ func (h *Handler) DeleteMovie(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid movie id", http.StatusBadRequest)
 		return
 	}
+	h.log.Debug("delete movie", "movie_id", movieId)
 	// Delete movie by id
 	err = h.service.Movies.DeleteMovie(movieId)
 	if err != nil {

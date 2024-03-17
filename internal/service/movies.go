@@ -30,5 +30,5 @@ func (s *moviesService) UpdateMovie(movieId int, movie models.Movie) error {
 }
 
 func (s *moviesService) DeleteMovie(movieId int) error {
-	return nil
+	return s.storage.Movies.DeleteMovie(movieId)
 }

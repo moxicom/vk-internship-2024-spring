@@ -66,8 +66,6 @@ func (s *moviesStorage) GetMovies(sortParams models.SortParams, searchParams mod
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
-
-	fmt.Println(movies)
 	return movies, nil
 }
 

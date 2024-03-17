@@ -18,14 +18,13 @@ const (
 )
 
 func main() {
-	// TODO: init config: cleanenv
 
-	// TODO: init logger: slog
+	// init logger: slog
 	log := setupLogger(envLocal)
 	log.Info("starting server...")
 	log.Debug("debug mode enabled")
 
-	// TODO: init storage: postgres
+	// init storage: postgres
 	db, err := postgres.New(models.PostgresConfig{
 		PostgresHost:     "localhost",
 		PostgresPort:     "5432",
@@ -41,18 +40,15 @@ func main() {
 
 	storage := storage.New(db)
 
-	// TODO: init service
+	// init service
 	service := service.New(storage)
 
-	// TODO: init router
+	// init router and run server
 	log.Info("initializing routes...")
 	if err := handlers.Run(log, service); err != nil {
 		log.Error(err.Error())
 		os.Exit(1)
 	}
-
-	// TODO: run server
-
 }
 
 func setupLogger(env string) *slog.Logger {
