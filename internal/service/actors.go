@@ -21,6 +21,6 @@ func (s *actorsService) AddActor(actor models.Actor) (int, error) {
 	return s.storage.Actors.AddActor(actor)
 }
 
-func (s *actorsService) UpdateActor(actorId int, actor models.ActorFilm) error {
+func (s *actorsService) UpdateActor(actorId int, actor models.Actor) error {
 	return s.storage.Actors.UpdateActor(actorId, actor)
 }

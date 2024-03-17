@@ -65,7 +65,7 @@ func (mr *MockActorsMockRecorder) GetActors() *gomock.Call {
 }
 
 // UpdateActor mocks base method.
-func (m *MockActors) UpdateActor(arg0 int, arg1 models.ActorFilm) error {
+func (m *MockActors) UpdateActor(arg0 int, arg1 models.Actor) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "UpdateActor", arg0, arg1)
 	ret0, _ := ret[0].(error)
