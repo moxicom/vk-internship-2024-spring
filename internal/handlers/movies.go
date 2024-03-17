@@ -29,6 +29,7 @@ func (h *Handler) getMoviesController(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// QUERY PARAMETERS: SORT, ORDER, NAME, ACTOR_NAME
 func (h *Handler) GetMovies(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("get movies request")
 	// Get sort params
@@ -41,14 +42,22 @@ func (h *Handler) GetMovies(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-
-	movies, err := h.service.Movies.GetMovies(sort)
+	// Get search params
+	var search models.SearchParams
+	search.MovieName = r.URL.Query().Get("movie_name")
+	search.ActorName = r.URL.Query().Get("actor_name")
+	search = utils.ProcessSearchParams(search)
+	// Get movies
+	movies, err := h.service.Movies.GetMovies(sort, search)
 	if err != nil {
 		h.log.Error(err.Error())
 		http.Error(w, "Failed to get movies", http.StatusInternalServerError)
 		return
 	}
-
+	if len(movies) == 0 {
+		w.Write([]byte("[]"))
+		return
+	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	err = json.NewEncoder(w).Encode(movies)

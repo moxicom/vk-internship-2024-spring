@@ -175,18 +175,18 @@ func (mr *MockMoviesMockRecorder) GetMovie(arg0 interface{}) *gomock.Call {
 }
 
 // GetMovies mocks base method.
-func (m *MockMovies) GetMovies(arg0 models.SortParams) ([]models.MovieActors, error) {
+func (m *MockMovies) GetMovies(arg0 models.SortParams, arg1 models.SearchParams) ([]models.MovieActors, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetMovies", arg0)
+	ret := m.ctrl.Call(m, "GetMovies", arg0, arg1)
 	ret0, _ := ret[0].([]models.MovieActors)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetMovies indicates an expected call of GetMovies.
-func (mr *MockMoviesMockRecorder) GetMovies(arg0 interface{}) *gomock.Call {
+func (mr *MockMoviesMockRecorder) GetMovies(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMovies", reflect.TypeOf((*MockMovies)(nil).GetMovies), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMovies", reflect.TypeOf((*MockMovies)(nil).GetMovies), arg0, arg1)
 }
 
 // UpdateMovie mocks base method.

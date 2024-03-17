@@ -13,8 +13,8 @@ func newMoviesService(s *storage.Repository) *moviesService {
 	return &moviesService{s}
 }
 
-func (s *moviesService) GetMovies(sort models.SortParams) ([]models.MovieActors, error) {
-	return []models.MovieActors{}, nil
+func (s *moviesService) GetMovies(sort models.SortParams, search models.SearchParams) ([]models.MovieActors, error) {
+	return s.storage.Movies.GetMovies(sort, search)
 }
 
 func (s *moviesService) GetMovie(movieId int) (models.MovieActors, error) {

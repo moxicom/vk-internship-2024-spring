@@ -10,9 +10,9 @@ func (s *moviesStorage) AddMovie(movie models.Movie) (int, error) {
 	}
 
 	err = tx.QueryRow(
-		"INSERT INTO movies(title, description, release_date, rating) VALUES($1, $2, $3, $4) RETURNING movie_id",
+		"INSERT INTO movies(name, description, date, rating) VALUES($1, $2, $3, $4) RETURNING movie_id",
 		movie.Name,
-		movie.Discription,
+		movie.Description,
 		movie.Date,
 		movie.Rating).Scan(&id)
 	if err != nil {

@@ -16,7 +16,7 @@ type Actors interface {
 }
 
 type Movies interface {
-	GetMovies(models.SortParams) ([]models.MovieActors, error)
+	GetMovies(models.SortParams, models.SearchParams) ([]models.MovieActors, error)
 	GetMovie(int) (models.MovieActors, error)
 	AddMovie(models.Movie) (int, error)
 	UpdateMovie(int, models.Movie) error
