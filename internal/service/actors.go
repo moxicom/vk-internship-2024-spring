@@ -17,6 +17,10 @@ func (s *actorsService) GetActors() ([]models.ActorFilm, error) {
 	return s.storage.Actors.GetActors()
 }
 
+func (s *actorsService) GetActor(actorId int) (models.ActorFilm, error) {
+	return s.storage.Actors.GetActor(actorId)
+}
+
 func (s *actorsService) AddActor(actor models.Actor) (int, error) {
 	return s.storage.Actors.AddActor(actor)
 }

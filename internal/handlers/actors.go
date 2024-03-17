@@ -51,6 +51,24 @@ func (h *handler) getActors(w http.ResponseWriter, r *http.Request) {
 
 func (h *handler) getActor(w http.ResponseWriter, r *http.Request, actorId int) {
 	h.log.Info("get actor request", "actor_id", actorId)
+	actor, err := h.service.GetActor(actorId)
+	if err != nil {
+		h.log.Error(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	if actor.ID == 0 && actor.Name == "" && actor.BirthDay == "" && actor.Gender == "" {
+		w.Write([]byte("{}"))
+		return
+	}
+	err = json.NewEncoder(w).Encode(actor)
+	if err != nil {
+		h.log.Error(err.Error())
+		http.Error(w, "Failed to encode JSON response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *handler) addActor(w http.ResponseWriter, r *http.Request) {

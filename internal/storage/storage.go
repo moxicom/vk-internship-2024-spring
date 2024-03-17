@@ -9,6 +9,7 @@ import (
 
 type Actors interface {
 	GetActors() ([]models.ActorFilm, error)
+	GetActor(int) (models.ActorFilm, error)
 	AddActor(models.Actor) (int, error)
 	UpdateActor(int, models.Actor) error
 }

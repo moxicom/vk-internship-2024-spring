@@ -49,6 +49,21 @@ func (mr *MockActorsMockRecorder) AddActor(arg0 interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddActor", reflect.TypeOf((*MockActors)(nil).AddActor), arg0)
 }
 
+// GetActor mocks base method.
+func (m *MockActors) GetActor(arg0 int) (models.ActorFilm, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetActor", arg0)
+	ret0, _ := ret[0].(models.ActorFilm)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetActor indicates an expected call of GetActor.
+func (mr *MockActorsMockRecorder) GetActor(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetActor", reflect.TypeOf((*MockActors)(nil).GetActor), arg0)
+}
+
 // GetActors mocks base method.
 func (m *MockActors) GetActors() ([]models.ActorFilm, error) {
 	m.ctrl.T.Helper()
