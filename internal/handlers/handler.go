@@ -8,18 +8,18 @@ import (
 	"github.com/moxicom/vk-internship-2024-spring/internal/service"
 )
 
-type handler struct {
+type Handler struct {
 	log     *slog.Logger
 	service *service.Service
 }
 
-func NewHandler(log *slog.Logger, s *service.Service) *handler {
-	return &handler{log, s}
+func NewHandler(log *slog.Logger, s *service.Service) *Handler {
+	return &Handler{log, s}
 }
 
 func Run(logger *slog.Logger, s *service.Service) error {
 	handler := NewHandler(logger, s)
-	mux := handler.initRoutes()
+	mux := handler.InitRoutes()
 
 	server := &http.Server{
 		Addr:         ":8080",
@@ -31,18 +31,17 @@ func Run(logger *slog.Logger, s *service.Service) error {
 	return server.ListenAndServe()
 }
 
-func (h *handler) initRoutes() *http.ServeMux {
+func (h *Handler) InitRoutes() *http.ServeMux {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/ping", h.ping)
 	mux.HandleFunc("/actors/", h.actorsMainHandler)
 	mux.HandleFunc("/movies/", h.moviesMainHandler)
 	return mux
 }
 
-func (h *handler) actorsMainHandler(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) actorsMainHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		h.getActorsControler(w, r)
+		h.GetActorsControler(w, r)
 	default:
 		h.withMiddleware(w, r, func(w http.ResponseWriter, r *http.Request) {
 			switch r.Method {
@@ -59,7 +58,7 @@ func (h *handler) actorsMainHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *handler) moviesMainHandler(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) moviesMainHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		h.getMovies(w, r)
@@ -79,7 +78,7 @@ func (h *handler) moviesMainHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *handler) withMiddleware(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+func (h *Handler) withMiddleware(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	h.log.Info("middleware")
 	next(w, r)
 }

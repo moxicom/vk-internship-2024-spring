@@ -12,7 +12,7 @@ import (
 
 var actorsPath = "/actors/"
 
-func (h *handler) getActorsControler(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) GetActorsControler(w http.ResponseWriter, r *http.Request) {
 	idPath := r.URL.Path[len(actorsPath):]
 	if len(idPath) == 0 {
 		// get all actors
@@ -28,7 +28,7 @@ func (h *handler) getActorsControler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *handler) GetActors(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) GetActors(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("get actors request")
 	actors, err := h.service.GetActors()
 	if err != nil {
@@ -50,7 +50,7 @@ func (h *handler) GetActors(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *handler) GetActor(w http.ResponseWriter, r *http.Request, actorId int) {
+func (h *Handler) GetActor(w http.ResponseWriter, r *http.Request, actorId int) {
 	h.log.Info("get actor request", "actor_id", actorId)
 	actor, err := h.service.GetActor(actorId)
 	if err != nil {
@@ -72,7 +72,7 @@ func (h *handler) GetActor(w http.ResponseWriter, r *http.Request, actorId int) 
 	}
 }
 
-func (h *handler) AddActor(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) AddActor(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("add actor request")
 	// Decode JSON body
 	var actor models.Actor
@@ -117,7 +117,7 @@ func (h *handler) AddActor(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonResponse)
 }
 
-func (h *handler) UpdateActor(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) UpdateActor(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("update actors request")
 	// Check actor id existance in URL
 	idPath := r.URL.Path[len(actorsPath):]
@@ -159,7 +159,7 @@ func (h *handler) UpdateActor(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func (h *handler) DeleteActor(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) DeleteActor(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("delete actors request")
 	idPath := r.URL.Path[len(actorsPath):]
 	if len(idPath) == 0 {
