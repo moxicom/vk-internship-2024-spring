@@ -1,5 +1,5 @@
 package handlers
 
 var (
-	jsonParseErr = "Failed to parse JSON body"
+	JsonParseErr = "Failed to parse JSON body"
 )

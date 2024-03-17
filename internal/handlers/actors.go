@@ -16,7 +16,7 @@ func (h *handler) getActorsControler(w http.ResponseWriter, r *http.Request) {
 	idPath := r.URL.Path[len(actorsPath):]
 	if len(idPath) == 0 {
 		// get all actors
-		h.getActors(w, r)
+		h.GetActors(w, r)
 	} else {
 		// get actor by id
 		actorId, err := getIdByPrefix(idPath)
@@ -24,11 +24,11 @@ func (h *handler) getActorsControler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Invalid actor id", http.StatusBadRequest)
 			return
 		}
-		h.getActor(w, r, actorId)
+		h.GetActor(w, r, actorId)
 	}
 }
 
-func (h *handler) getActors(w http.ResponseWriter, r *http.Request) {
+func (h *handler) GetActors(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("get actors request")
 	actors, err := h.service.GetActors()
 	if err != nil {
@@ -50,7 +50,7 @@ func (h *handler) getActors(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *handler) getActor(w http.ResponseWriter, r *http.Request, actorId int) {
+func (h *handler) GetActor(w http.ResponseWriter, r *http.Request, actorId int) {
 	h.log.Info("get actor request", "actor_id", actorId)
 	actor, err := h.service.GetActor(actorId)
 	if err != nil {
@@ -72,12 +72,12 @@ func (h *handler) getActor(w http.ResponseWriter, r *http.Request, actorId int) 
 	}
 }
 
-func (h *handler) addActor(w http.ResponseWriter, r *http.Request) {
+func (h *handler) AddActor(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("add actor request")
 	// Decode JSON body
 	var actor models.Actor
 	if err := json.NewDecoder(r.Body).Decode(&actor); err != nil {
-		http.Error(w, jsonParseErr, http.StatusBadRequest)
+		http.Error(w, JsonParseErr, http.StatusBadRequest)
 		return
 	}
 	// Validate JSON body
@@ -117,7 +117,7 @@ func (h *handler) addActor(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonResponse)
 }
 
-func (h *handler) updateActor(w http.ResponseWriter, r *http.Request) {
+func (h *handler) UpdateActor(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("update actors request")
 	// Check actor id existance in URL
 	idPath := r.URL.Path[len(actorsPath):]
@@ -137,7 +137,7 @@ func (h *handler) updateActor(w http.ResponseWriter, r *http.Request) {
 	var actor models.Actor
 	if err := json.NewDecoder(r.Body).Decode(&actor); err != nil {
 		h.log.Error(err.Error())
-		http.Error(w, jsonParseErr, http.StatusBadRequest)
+		http.Error(w, JsonParseErr, http.StatusBadRequest)
 		return
 	}
 	// Validate time if it is not empty
@@ -159,7 +159,7 @@ func (h *handler) updateActor(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func (h *handler) deleteActor(w http.ResponseWriter, r *http.Request) {
+func (h *handler) DeleteActor(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("delete actors request")
 	idPath := r.URL.Path[len(actorsPath):]
 	if len(idPath) == 0 {

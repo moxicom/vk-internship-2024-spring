@@ -47,11 +47,11 @@ func (h *handler) actorsMainHandler(w http.ResponseWriter, r *http.Request) {
 		h.withMiddleware(w, r, func(w http.ResponseWriter, r *http.Request) {
 			switch r.Method {
 			case http.MethodPost:
-				h.addActor(w, r)
+				h.AddActor(w, r)
 			case http.MethodPut:
-				h.updateActor(w, r)
+				h.UpdateActor(w, r)
 			case http.MethodDelete:
-				h.deleteActor(w, r)
+				h.DeleteActor(w, r)
 			default:
 				http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 			}
