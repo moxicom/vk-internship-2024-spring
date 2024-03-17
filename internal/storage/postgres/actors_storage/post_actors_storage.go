@@ -10,7 +10,7 @@ func (s *actorsStorage) AddActor(actor models.Actor) (int, error) {
 	}
 
 	err = tx.QueryRow(
-		"INSERT INTO actors(name, isMale, date_of_birth) VALUES($1, $2, $3) RETURNING actor_id",
+		"INSERT INTO actors(name, gender, date_of_birth) VALUES($1, $2, $3) RETURNING actor_id",
 		actor.Name,
 		actor.Gender,
 		actor.BirthDay,

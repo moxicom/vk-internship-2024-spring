@@ -10,7 +10,7 @@ import (
 type Actors interface {
 	GetActors() ([]models.ActorFilm, error)
 	AddActor(models.Actor) (int, error)
-	UpdateActor(int, models.ActorFilm) error
+	UpdateActor(int, models.Actor) error
 }
 
 type Service struct {

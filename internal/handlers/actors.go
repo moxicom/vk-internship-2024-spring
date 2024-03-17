@@ -115,7 +115,7 @@ func (h *handler) updateActor(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// Decode JSON body
-	var actor models.ActorFilm
+	var actor models.Actor
 	if err := json.NewDecoder(r.Body).Decode(&actor); err != nil {
 		h.log.Error(err.Error())
 		http.Error(w, jsonParseErr, http.StatusBadRequest)

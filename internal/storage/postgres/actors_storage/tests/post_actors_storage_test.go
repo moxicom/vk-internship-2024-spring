@@ -1,4 +1,4 @@
-package actors_storage
+package actors_storage_test
 
 import (
 	"errors"
@@ -7,6 +7,7 @@ import (
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/moxicom/vk-internship-2024-spring/internal/models"
+	"github.com/moxicom/vk-internship-2024-spring/internal/storage/postgres/actors_storage"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -17,7 +18,7 @@ func TestActorsStorage_AddActor(t *testing.T) {
 	}
 	defer db.Close()
 
-	r := New(db)
+	r := actors_storage.New(db)
 
 	type args struct {
 		actor models.Actor
