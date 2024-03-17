@@ -12,6 +12,7 @@ type Actors interface {
 	GetActor(int) (models.ActorFilm, error)
 	AddActor(models.Actor) (int, error)
 	UpdateActor(int, models.Actor) error
+	DeleteActor(int) error
 }
 
 type Service struct {

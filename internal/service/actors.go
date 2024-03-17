@@ -28,3 +28,7 @@ func (s *actorsService) AddActor(actor models.Actor) (int, error) {
 func (s *actorsService) UpdateActor(actorId int, actor models.Actor) error {
 	return s.storage.Actors.UpdateActor(actorId, actor)
 }
+
+func (s *actorsService) DeleteActor(actorId int) error {
+	return s.storage.Actors.DeleteActor(actorId)
+}

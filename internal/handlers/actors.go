@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 	"time"
 
@@ -159,5 +160,25 @@ func (h *handler) updateActor(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *handler) deleteActor(w http.ResponseWriter, r *http.Request) {
-	h.log.Info("get actors request")
+	h.log.Info("delete actors request")
+	idPath := r.URL.Path[len(actorsPath):]
+	if len(idPath) == 0 {
+		err := errors.New("no actor id in URL")
+		h.log.Error(err.Error())
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	// delete actor by id
+	actorId, err := getIdByPrefix(idPath)
+	if err != nil {
+		http.Error(w, "Invalid actor id", http.StatusBadRequest)
+		return
+	}
+	err = h.service.Actors.DeleteActor(actorId)
+	if err != nil {
+		h.log.Error(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
 }

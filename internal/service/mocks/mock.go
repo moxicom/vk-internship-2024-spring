@@ -49,6 +49,20 @@ func (mr *MockActorsMockRecorder) AddActor(arg0 interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddActor", reflect.TypeOf((*MockActors)(nil).AddActor), arg0)
 }
 
+// DeleteActor mocks base method.
+func (m *MockActors) DeleteActor(arg0 int) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteActor", arg0)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteActor indicates an expected call of DeleteActor.
+func (mr *MockActorsMockRecorder) DeleteActor(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteActor", reflect.TypeOf((*MockActors)(nil).DeleteActor), arg0)
+}
+
 // GetActor mocks base method.
 func (m *MockActors) GetActor(arg0 int) (models.ActorFilm, error) {
 	m.ctrl.T.Helper()

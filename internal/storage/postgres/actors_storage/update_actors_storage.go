@@ -45,12 +45,14 @@ func (s *actorsStorage) UpdateActor(actorId int, actor models.Actor) error {
 
 	stmt, err := tx.Prepare(updateQuery)
 	if err != nil {
+		tx.Rollback()
 		return err
 	}
 	defer stmt.Close()
 	// Execute the update actors
 	_, err = stmt.Exec(queryParams...)
 	if err != nil {
+		tx.Rollback()
 		return err
 	}
 	return tx.Commit()
