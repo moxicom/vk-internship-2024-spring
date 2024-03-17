@@ -61,16 +61,16 @@ func (h *Handler) actorsMainHandler(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) moviesMainHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		h.getMovies(w, r)
+		h.getMoviesController(w, r)
 	default:
 		h.withMiddleware(w, r, func(w http.ResponseWriter, r *http.Request) {
 			switch r.Method {
 			case http.MethodPost:
-				h.addMovie(w, r)
+				h.AddMovie(w, r)
 			case http.MethodPut:
-				h.updateMovie(w, r)
+				h.UpdateMovie(w, r)
 			case http.MethodDelete:
-				h.deleteMovie(w, r)
+				h.DeleteMovie(w, r)
 			default:
 				http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 			}

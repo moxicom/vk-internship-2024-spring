@@ -44,9 +44,10 @@ func TestHandler_DeleteActor(t *testing.T) {
 			c := gomock.NewController(t)
 			defer c.Finish()
 			mockActorsService := mock_service.NewMockActors(c)
+			mockMoviesService := mock_service.NewMockMovies(c)
 			testCase.mockBehavior(mockActorsService, testCase.args.actorID)
 
-			services := &service.Service{Actors: mockActorsService}
+			services := &service.Service{Actors: mockActorsService, Movies: mockMoviesService}
 			handler := handlers.NewHandler(slog.Default(), services)
 
 			w := httptest.NewRecorder()

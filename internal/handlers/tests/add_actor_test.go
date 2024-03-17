@@ -56,9 +56,10 @@ func TestHandler_AddActor(t *testing.T) {
 			defer c.Finish()
 
 			mockActorsService := mock_service.NewMockActors(c)
+			mockMoviesService := mock_service.NewMockMovies(c)
 			testCase.mockBehavior(mockActorsService, testCase.input)
 
-			services := &service.Service{Actors: mockActorsService}
+			services := &service.Service{Actors: mockActorsService, Movies: mockMoviesService}
 			handler := handlers.NewHandler(slog.Default(), services)
 
 			w := httptest.NewRecorder()

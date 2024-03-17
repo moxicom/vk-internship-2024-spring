@@ -27,7 +27,7 @@ func TestHandler_GetActor(t *testing.T) {
 			name:  "OK",
 			input: 1,
 			mockBehavior: func(s *mock_service.MockActors, actorId int) {
-				s.EXPECT().GetActor(actorId).Return(models.ActorFilm{
+				s.EXPECT().GetActor(actorId).Return(models.ActorFilms{
 					Actor: models.Actor{
 						ID:       actorId,
 						Name:     "John",
@@ -46,7 +46,7 @@ func TestHandler_GetActor(t *testing.T) {
 			name:  "Actor Not Found",
 			input: 2,
 			mockBehavior: func(s *mock_service.MockActors, actorId int) {
-				s.EXPECT().GetActor(actorId).Return(models.ActorFilm{}, nil)
+				s.EXPECT().GetActor(actorId).Return(models.ActorFilms{}, nil)
 			},
 			expectedStatusCode:   200,
 			expectedResponseBody: "{}",
@@ -59,9 +59,10 @@ func TestHandler_GetActor(t *testing.T) {
 			defer c.Finish()
 
 			mockActorsService := mock_service.NewMockActors(c)
+			mockMoviesService := mock_service.NewMockMovies(c)
 			testCase.mockBehavior(mockActorsService, testCase.input)
 
-			services := &service.Service{Actors: mockActorsService}
+			services := &service.Service{Actors: mockActorsService, Movies: mockMoviesService}
 			handler := handlers.NewHandler(slog.Default(), services)
 
 			w := httptest.NewRecorder()

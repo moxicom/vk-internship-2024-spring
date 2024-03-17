@@ -30,29 +30,28 @@ func (h *Handler) GetActorsControler(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handler) GetActors(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("get actors request")
-	actors, err := h.service.GetActors()
+	actors, err := h.service.Actors.GetActors()
 	if err != nil {
 		h.log.Error(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
-
+	// Write response
 	w.Header().Set("Content-Type", "application/json")
 	if len(actors) == 0 {
 		w.Write([]byte("[]"))
 		return
 	}
-
 	err = json.NewEncoder(w).Encode(actors)
 	if err != nil {
 		h.log.Error(err.Error())
-		http.Error(w, "Failed to encode JSON response", http.StatusInternalServerError)
+		http.Error(w, JsonEncodeErr, http.StatusInternalServerError)
 		return
 	}
 }
 
 func (h *Handler) GetActor(w http.ResponseWriter, r *http.Request, actorId int) {
 	h.log.Info("get actor request", "actor_id", actorId)
-	actor, err := h.service.GetActor(actorId)
+	actor, err := h.service.Actors.GetActor(actorId)
 	if err != nil {
 		h.log.Error(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -67,7 +66,7 @@ func (h *Handler) GetActor(w http.ResponseWriter, r *http.Request, actorId int) 
 	err = json.NewEncoder(w).Encode(actor)
 	if err != nil {
 		h.log.Error(err.Error())
-		http.Error(w, "Failed to encode JSON response", http.StatusInternalServerError)
+		http.Error(w, JsonEncodeErr, http.StatusInternalServerError)
 		return
 	}
 }
@@ -106,15 +105,14 @@ func (h *Handler) AddActor(w http.ResponseWriter, r *http.Request) {
 		ID int `json:"id"`
 	}{actorId}
 
-	jsonResponse, err := json.Marshal(response)
-	if err != nil {
-		http.Error(w, "Failed to create JSON response", http.StatusInternalServerError)
-		return
-	}
-
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write(jsonResponse)
+	err = json.NewEncoder(w).Encode(response)
+	if err != nil {
+		h.log.Error(err.Error())
+		http.Error(w, JsonEncodeErr, http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *Handler) UpdateActor(w http.ResponseWriter, r *http.Request) {
@@ -168,12 +166,13 @@ func (h *Handler) DeleteActor(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	// delete actor by id
 	actorId, err := getIdByPrefix(idPath)
 	if err != nil {
+		h.log.Error(err.Error())
 		http.Error(w, "Invalid actor id", http.StatusBadRequest)
 		return
 	}
+	// delete actor by id
 	err = h.service.Actors.DeleteActor(actorId)
 	if err != nil {
 		h.log.Error(err.Error())

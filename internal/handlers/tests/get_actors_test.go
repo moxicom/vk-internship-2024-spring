@@ -25,7 +25,7 @@ func TestHandler_GetActors(t *testing.T) {
 		{
 			name: "OK",
 			mockBehavior: func(s *mock_service.MockActors) {
-				s.EXPECT().GetActors().Return([]models.ActorFilm{
+				s.EXPECT().GetActors().Return([]models.ActorFilms{
 					{
 						Actor: models.Actor{
 							ID:       1,
@@ -58,7 +58,7 @@ func TestHandler_GetActors(t *testing.T) {
 		{
 			name: "Database error",
 			mockBehavior: func(s *mock_service.MockActors) {
-				s.EXPECT().GetActors().Return([]models.ActorFilm{}, errors.New("Server database exception"))
+				s.EXPECT().GetActors().Return([]models.ActorFilms{}, errors.New("Server database exception"))
 			},
 			expectedStatusCode:   500,
 			expectedResponseBody: strings.TrimSpace("Server database exception\n[]"),
@@ -71,9 +71,10 @@ func TestHandler_GetActors(t *testing.T) {
 			defer c.Finish()
 
 			mockActorsService := mock_service.NewMockActors(c)
+			mockMoviesService := mock_service.NewMockMovies(c)
 			testCase.mockBehavior(mockActorsService)
 
-			services := &service.Service{Actors: mockActorsService}
+			services := &service.Service{Actors: mockActorsService, Movies: mockMoviesService}
 			handler := handlers.NewHandler(slog.Default(), services)
 
 			w := httptest.NewRecorder()

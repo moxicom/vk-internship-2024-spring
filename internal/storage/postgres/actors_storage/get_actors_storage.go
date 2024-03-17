@@ -1,44 +1,34 @@
 package actors_storage
 
 import (
-	"database/sql"
-
 	"github.com/moxicom/vk-internship-2024-spring/internal/models"
 )
 
-type actorsStorage struct {
-	db *sql.DB
-}
-
-func New(db *sql.DB) *actorsStorage {
-	return &actorsStorage{db}
-}
-
-func (s *actorsStorage) GetActors() ([]models.ActorFilm, error) {
+func (s *actorsStorage) GetActors() ([]models.ActorFilms, error) {
 	actorsRows, err := s.db.Query("SELECT actor_id, name, gender, date_of_birth FROM actors")
 	if err != nil {
-		return []models.ActorFilm{}, err
+		return []models.ActorFilms{}, err
 	}
 	defer actorsRows.Close()
 
-	var actors []models.ActorFilm
+	var actors []models.ActorFilms
 	for actorsRows.Next() {
-		var actor models.ActorFilm
+		var actor models.ActorFilms
 		// Scan actor
 		err := actorsRows.Scan(&actor.ID, &actor.Name, &actor.Gender, &actor.BirthDay)
 		if err != nil {
-			return []models.ActorFilm{}, err
+			return []models.ActorFilms{}, err
 		}
 		// Get actors fims
 		movies, err := s.getActorFilmsIDs(int(actor.ID))
 		if err != nil {
-			return []models.ActorFilm{}, nil
+			return []models.ActorFilms{}, nil
 		}
 		actor.Movies = movies
 		actors = append(actors, actor)
 	}
 	if err := actorsRows.Err(); err != nil {
-		return []models.ActorFilm{}, err
+		return []models.ActorFilms{}, err
 	}
 
 	return actors, nil

@@ -30,8 +30,8 @@ func TestHandler_GetActorsControler(t *testing.T) {
 			c := gomock.NewController(t)
 			defer c.Finish()
 			mockActorsService := mock_service.NewMockActors(c)
-
-			services := &service.Service{Actors: mockActorsService}
+			mockMoviesService := mock_service.NewMockMovies(c)
+			services := &service.Service{Actors: mockActorsService, Movies: mockMoviesService}
 			handler := handlers.NewHandler(slog.Default(), services)
 
 			w := httptest.NewRecorder()

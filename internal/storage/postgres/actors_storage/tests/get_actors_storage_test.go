@@ -23,7 +23,7 @@ func TestActorsStorage_GetActors(t *testing.T) {
 	tests := []struct {
 		name      string
 		mock      func()
-		want      []models.ActorFilm
+		want      []models.ActorFilms
 		wantError bool
 	}{
 		{
@@ -36,7 +36,7 @@ func TestActorsStorage_GetActors(t *testing.T) {
 				mock.ExpectQuery("SELECT movie_id from movie_actors WHERE actor_id=?").WithArgs(1).WillReturnRows(sqlmock.NewRows([]string{"movie_id"}).AddRow(101))
 				mock.ExpectQuery("SELECT movie_id from movie_actors WHERE actor_id=?").WithArgs(2).WillReturnRows(sqlmock.NewRows([]string{"movie_id"}).AddRow(102))
 			},
-			want: []models.ActorFilm{
+			want: []models.ActorFilms{
 				{
 					Actor: models.Actor{
 						ID:       1,
@@ -88,7 +88,7 @@ func TestActorsStorage_GetActors(t *testing.T) {
 				mock.ExpectQuery("SELECT movie_id from movie_actors WHERE actor_id=?").WithArgs(1).WillReturnRows(sqlmock.NewRows([]string{"movie_id"})) // No movies for actor 1
 				mock.ExpectQuery("SELECT movie_id from movie_actors WHERE actor_id=?").WithArgs(2).WillReturnRows(sqlmock.NewRows([]string{"movie_id"})) // No movies for actor 2
 			},
-			want: []models.ActorFilm{
+			want: []models.ActorFilms{
 				{
 					Actor: models.Actor{
 						ID:       1,

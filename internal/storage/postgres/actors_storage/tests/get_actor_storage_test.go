@@ -28,7 +28,7 @@ func TestActorsStorage_GetActor(t *testing.T) {
 		name      string
 		args      args
 		mock      func(actorId int)
-		want      models.ActorFilm
+		want      models.ActorFilms
 		wantError bool
 	}{
 		{
@@ -43,7 +43,7 @@ func TestActorsStorage_GetActor(t *testing.T) {
 					WillReturnRows(actorRows)
 				mock.ExpectQuery("SELECT movie_id from movie_actors WHERE actor_id=?").WithArgs(actorId).WillReturnRows(sqlmock.NewRows([]string{"movie_id"}).AddRow(101))
 			},
-			want: models.ActorFilm{
+			want: models.ActorFilms{
 				Actor: models.Actor{
 					ID:       1,
 					Name:     "John",

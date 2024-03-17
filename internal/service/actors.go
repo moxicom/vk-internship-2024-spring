@@ -13,11 +13,11 @@ func newActorsService(s *storage.Repository) *actorsService {
 	return &actorsService{s}
 }
 
-func (s *actorsService) GetActors() ([]models.ActorFilm, error) {
+func (s *actorsService) GetActors() ([]models.ActorFilms, error) {
 	return s.storage.Actors.GetActors()
 }
 
-func (s *actorsService) GetActor(actorId int) (models.ActorFilm, error) {
+func (s *actorsService) GetActor(actorId int) (models.ActorFilms, error) {
 	return s.storage.Actors.GetActor(actorId)
 }
 

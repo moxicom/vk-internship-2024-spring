@@ -17,8 +17,16 @@ func (s *actorsStorage) AddActor(actor models.Actor) (int, error) {
 	).Scan(&id)
 	if err != nil {
 		tx.Rollback()
-		return 0, nil
+		return 0, err
 	}
 
 	return id, tx.Commit()
 }
+
+// type Movies interface {
+// GetMovies(models.SortParams) ([]models.MovieActors, error)
+// GetMovie(int) (models.MovieActors, error)
+// AddMovie(models.Movie) (int, error)
+// UpdateMovie(int, models.Movie) error
+// DeleteMovie(int) error
+// }

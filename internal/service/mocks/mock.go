@@ -64,10 +64,10 @@ func (mr *MockActorsMockRecorder) DeleteActor(arg0 interface{}) *gomock.Call {
 }
 
 // GetActor mocks base method.
-func (m *MockActors) GetActor(arg0 int) (models.ActorFilm, error) {
+func (m *MockActors) GetActor(arg0 int) (models.ActorFilms, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetActor", arg0)
-	ret0, _ := ret[0].(models.ActorFilm)
+	ret0, _ := ret[0].(models.ActorFilms)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -79,10 +79,10 @@ func (mr *MockActorsMockRecorder) GetActor(arg0 interface{}) *gomock.Call {
 }
 
 // GetActors mocks base method.
-func (m *MockActors) GetActors() ([]models.ActorFilm, error) {
+func (m *MockActors) GetActors() ([]models.ActorFilms, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetActors")
-	ret0, _ := ret[0].([]models.ActorFilm)
+	ret0, _ := ret[0].([]models.ActorFilms)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -105,4 +105,100 @@ func (m *MockActors) UpdateActor(arg0 int, arg1 models.Actor) error {
 func (mr *MockActorsMockRecorder) UpdateActor(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateActor", reflect.TypeOf((*MockActors)(nil).UpdateActor), arg0, arg1)
+}
+
+// MockMovies is a mock of Movies interface.
+type MockMovies struct {
+	ctrl     *gomock.Controller
+	recorder *MockMoviesMockRecorder
+}
+
+// MockMoviesMockRecorder is the mock recorder for MockMovies.
+type MockMoviesMockRecorder struct {
+	mock *MockMovies
+}
+
+// NewMockMovies creates a new mock instance.
+func NewMockMovies(ctrl *gomock.Controller) *MockMovies {
+	mock := &MockMovies{ctrl: ctrl}
+	mock.recorder = &MockMoviesMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockMovies) EXPECT() *MockMoviesMockRecorder {
+	return m.recorder
+}
+
+// AddMovie mocks base method.
+func (m *MockMovies) AddMovie(arg0 models.Movie) (int, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AddMovie", arg0)
+	ret0, _ := ret[0].(int)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// AddMovie indicates an expected call of AddMovie.
+func (mr *MockMoviesMockRecorder) AddMovie(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddMovie", reflect.TypeOf((*MockMovies)(nil).AddMovie), arg0)
+}
+
+// DeleteMovie mocks base method.
+func (m *MockMovies) DeleteMovie(arg0 int) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteMovie", arg0)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteMovie indicates an expected call of DeleteMovie.
+func (mr *MockMoviesMockRecorder) DeleteMovie(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteMovie", reflect.TypeOf((*MockMovies)(nil).DeleteMovie), arg0)
+}
+
+// GetMovie mocks base method.
+func (m *MockMovies) GetMovie(arg0 int) (models.MovieActors, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetMovie", arg0)
+	ret0, _ := ret[0].(models.MovieActors)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetMovie indicates an expected call of GetMovie.
+func (mr *MockMoviesMockRecorder) GetMovie(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMovie", reflect.TypeOf((*MockMovies)(nil).GetMovie), arg0)
+}
+
+// GetMovies mocks base method.
+func (m *MockMovies) GetMovies(arg0 models.SortParams) ([]models.MovieActors, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetMovies", arg0)
+	ret0, _ := ret[0].([]models.MovieActors)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetMovies indicates an expected call of GetMovies.
+func (mr *MockMoviesMockRecorder) GetMovies(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMovies", reflect.TypeOf((*MockMovies)(nil).GetMovies), arg0)
+}
+
+// UpdateMovie mocks base method.
+func (m *MockMovies) UpdateMovie(arg0 int, arg1 models.Movie) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateMovie", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateMovie indicates an expected call of UpdateMovie.
+func (mr *MockMoviesMockRecorder) UpdateMovie(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateMovie", reflect.TypeOf((*MockMovies)(nil).UpdateMovie), arg0, arg1)
 }
