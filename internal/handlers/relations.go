@@ -34,7 +34,7 @@ func (h *Handler) AddRelation(w http.ResponseWriter, r *http.Request) {
 	err = h.service.AddRelation(rel)
 	if err != nil {
 		h.log.Error(err.Error())
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.WriteHeader(http.StatusOK)

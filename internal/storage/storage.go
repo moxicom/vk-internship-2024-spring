@@ -6,6 +6,7 @@ import (
 	"github.com/moxicom/vk-internship-2024-spring/internal/models"
 	"github.com/moxicom/vk-internship-2024-spring/internal/storage/postgres/actors_storage"
 	"github.com/moxicom/vk-internship-2024-spring/internal/storage/postgres/movies_storage"
+	"github.com/moxicom/vk-internship-2024-spring/internal/storage/postgres/relations_storage"
 )
 
 type Actors interface {
@@ -24,14 +25,21 @@ type Movies interface {
 	DeleteMovie(int) error
 }
 
+type Relations interface {
+	AddRelation(models.RelationMoviesActors) error
+	DeleteRelation(models.RelationMoviesActors) error
+}
+
 type Repository struct {
 	Actors
 	Movies
+	Relations
 }
 
 func New(db *sql.DB) *Repository {
 	return &Repository{
-		Actors: actors_storage.New(db),
-		Movies: movies_storage.New(db),
+		Actors:    actors_storage.New(db),
+		Movies:    movies_storage.New(db),
+		Relations: relations_storage.New(db),
 	}
 }

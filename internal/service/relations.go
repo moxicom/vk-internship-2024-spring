@@ -14,13 +14,9 @@ func newRelationsService(s *storage.Repository) *relationsService {
 }
 
 func (s *relationsService) AddRelation(rel models.RelationMoviesActors) error {
-	// TODO: ADD ADD RELATIONS
-	return nil
-	// return s.storage.Relations.AddRelation(rel)
+	return s.storage.Relations.AddRelation(rel)
 }
 
 func (s *relationsService) DeleteRelation(rel models.RelationMoviesActors) error {
-	// TODO: ADD DELETE RELATIONS
-	return nil
-	// return s.storage.Relations.DeleteRelation(rel)
+	return s.storage.Relations.DeleteRelation(rel)
 }
