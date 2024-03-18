@@ -11,7 +11,7 @@ func (s *MoviesStorage) GetMovies(sortParams models.SortParams, searchParams mod
 	if err != nil {
 		return nil, err
 	}
-	query := `SELECT m.movie_id, m.name, m.description, m.date, m.rating
+	query := `SELECT DISTINCT m.movie_id, m.name, m.description, m.date, m.rating
 	              FROM movies m 
 	              LEFT JOIN movie_actors ma ON m.movie_id = ma.movie_id
 				  LEFT JOIN actors a ON ma.actor_id = a.actor_id
