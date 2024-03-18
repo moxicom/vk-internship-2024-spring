@@ -8,7 +8,6 @@ import (
 )
 
 func (s *moviesStorage) UpdateMovie(movieId int, movie models.Movie) error {
-	// TODO: update movie by id
 	tx, err := s.db.Begin()
 	if err != nil {
 		return err

@@ -1,8 +1,6 @@
 package movies_storage
 
 func (s *moviesStorage) DeleteMovie(movieId int) error {
-	// TODO: delete movie by id
-	// TODO: do not forget to delete all relations with actors
 	tx, err := s.db.Begin()
 	if err != nil {
 		return err

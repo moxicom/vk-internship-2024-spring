@@ -18,8 +18,7 @@ func (s *moviesService) GetMovies(sort models.SortParams, search models.SearchPa
 }
 
 func (s *moviesService) GetMovie(movieId int) (models.MovieActors, error) {
-	// TODO: Get movie
-	return models.MovieActors{}, nil
+	return s.storage.Movies.GetMovie(movieId)
 }
 
 func (s *moviesService) AddMovie(movie models.Movie) (int, error) {
