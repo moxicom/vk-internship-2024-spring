@@ -28,10 +28,15 @@ type Relations interface {
 	DeleteRelation(models.RelationMoviesActors) error
 }
 
+type Users interface {
+	CheckUser(string, string, bool) (bool, error)
+}
+
 type Service struct {
 	Actors
 	Movies
 	Relations
+	Users
 }
 
 func New(s *storage.Repository) *Service {
@@ -39,5 +44,6 @@ func New(s *storage.Repository) *Service {
 		Actors:    newActorsService(s),
 		Movies:    newMoviesService(s),
 		Relations: newRelationsService(s),
+		Users:     newUsersService(s),
 	}
 }

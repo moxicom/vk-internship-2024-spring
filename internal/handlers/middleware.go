@@ -4,18 +4,18 @@ import (
 	"net/http"
 )
 
-func (h *Handler) isAdminAuth(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+func (h *Handler) IsAdminAuth(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	username, password, ok := r.BasicAuth()
 	if ok {
 
 		// TODO: Get from database here
-		expectedUsername := "userAdmin"
-		expectedPassword := "password"
-
-		usernameMatch := username == expectedUsername
-		passwordMatch := password == expectedPassword
-
-		if usernameMatch && passwordMatch {
+		match, err := h.service.Users.CheckUser(username, password, true)
+		if err != nil {
+			h.log.Error(err.Error())
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		if match {
 			next.ServeHTTP(w, r)
 			return
 		}
@@ -25,7 +25,7 @@ func (h *Handler) isAdminAuth(w http.ResponseWriter, r *http.Request, next http.
 	http.Error(w, "Unauthorized", http.StatusUnauthorized)
 }
 
-func (h *Handler) isBasicUserAuth(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+func (h *Handler) IsBasicUserAuth(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	username, password, ok := r.BasicAuth()
 	if ok {
 

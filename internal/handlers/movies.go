@@ -3,7 +3,6 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
-	"time"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/moxicom/vk-internship-2024-spring/internal/models"
@@ -101,17 +100,18 @@ func (h *Handler) AddMovie(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	// Validate time string
-	_, err := time.Parse("2006-01-02", movie.Date)
+	// Validate time string length
+	if movie.Date == "" {
+		h.log.Error("movie date is required")
+		http.Error(w, "movie date is required", http.StatusBadRequest)
+		return
+	}
+
+	// Validate movie
+	err := utils.ValidateMovie(movie)
 	if err != nil {
 		h.log.Error(err.Error())
 		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-	// Validate rating
-	if *movie.Rating < 0 || *movie.Rating > 10 {
-		h.log.Error(MovieRatingErr)
-		http.Error(w, MovieRatingErr, http.StatusBadRequest)
 		return
 	}
 	// Insert data
@@ -163,22 +163,12 @@ func (h *Handler) UpdateMovie(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, JsonParseErr, http.StatusBadRequest)
 		return
 	}
-	// Validate time string if it is not empty
-	if movie.Date != "" {
-		_, err := time.Parse("2006-01-02", movie.Date)
-		if err != nil {
-			h.log.Error(err.Error())
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-	}
-	// Validate rating if it is not empty
-	if movie.Rating != nil {
-		if *movie.Rating < 0 || *movie.Rating > 10 {
-			h.log.Error(MovieRatingErr)
-			http.Error(w, MovieRatingErr, http.StatusBadRequest)
-			return
-		}
+	// Validate movie
+	err = utils.ValidateMovie(movie)
+	if err != nil {
+		h.log.Error(err.Error())
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 	// Update data
 	err = h.service.Movies.UpdateMovie(movieId, movie)

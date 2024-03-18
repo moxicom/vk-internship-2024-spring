@@ -19,3 +19,6 @@ CREATE TABLE users (
     password_hash VARCHAR(255) NOT NULL,
     isAdmin BOOLEAN
 );
+
+INSERT INTO users (username, password_hash, isAdmin) VALUES('userAdmin', 'password', true);
+INSERT INTO users (username, password_hash, isAdmin) VALUES('user', 'password', false);
