@@ -37,6 +37,17 @@ func TestHandler_DeleteActor(t *testing.T) {
 			expectedStatusCode:   200,
 			expectedResponseBody: "",
 		},
+		{
+			name: "UnexpectedError",
+			args: args{
+				actorID: 1,
+			},
+			mockBehavior: func(s *mock_service.MockActors, actorID int) {
+				s.EXPECT().DeleteActor(actorID).Return(fmt.Errorf("error"))
+			},
+			expectedStatusCode:   500,
+			expectedResponseBody: "error",
+		},
 	}
 
 	for _, testCase := range tests {

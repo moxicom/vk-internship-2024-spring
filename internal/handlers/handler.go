@@ -43,13 +43,13 @@ func (h *Handler) InitRoutes() *http.ServeMux {
 			httpSwagger.DomID("swagger-ui"),
 		),
 	)
-	mux.HandleFunc("/actors/", h.actorsMainHandler)
-	mux.HandleFunc("/movies/", h.moviesMainHandler)
-	mux.HandleFunc("/relations/", h.relationsMainHandler)
+	mux.HandleFunc("/actors/", h.ActorsMainHandler)
+	mux.HandleFunc("/movies/", h.MoviesMainHandler)
+	mux.HandleFunc("/relations/", h.RelationsMainHandler)
 	return mux
 }
 
-func (h *Handler) actorsMainHandler(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) ActorsMainHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		h.IsBasicUserAuth(w, r, h.GetActorsControler)
@@ -69,7 +69,7 @@ func (h *Handler) actorsMainHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *Handler) moviesMainHandler(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) MoviesMainHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		h.IsBasicUserAuth(w, r, h.GetMoviesController)
@@ -89,7 +89,7 @@ func (h *Handler) moviesMainHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *Handler) relationsMainHandler(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) RelationsMainHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodDelete:
 		h.IsAdminAuth(w, r, h.DeleteRelation)

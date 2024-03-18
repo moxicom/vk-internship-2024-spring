@@ -47,6 +47,19 @@ func TestHandler_AddRelation(t *testing.T) {
 			expectedCode: http.StatusBadRequest,
 			expectedBody: handlers.JsonParseErr,
 		},
+		{
+			name:      "InvalidRequestBody",
+			inputBody: `{"movie_id": "1", "actor_id": "2as"}`,
+			input: models.RelationMoviesActors{
+				MovieID: "1",
+				ActorID: "2asd",
+			},
+			mockBehavior: func(s *mock_service.MockRelations, input models.RelationMoviesActors) {
+				s.EXPECT().AddRelation(input).Return(errors.New("invalid request body")).AnyTimes()
+			},
+			expectedCode: http.StatusBadRequest,
+			expectedBody: handlers.JsonParseErr,
+		},
 	}
 
 	for _, testCase := range tests {

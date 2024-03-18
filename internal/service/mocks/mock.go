@@ -253,3 +253,41 @@ func (mr *MockRelationsMockRecorder) DeleteRelation(arg0 interface{}) *gomock.Ca
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRelation", reflect.TypeOf((*MockRelations)(nil).DeleteRelation), arg0)
 }
+
+// MockUsers is a mock of Users interface.
+type MockUsers struct {
+	ctrl     *gomock.Controller
+	recorder *MockUsersMockRecorder
+}
+
+// MockUsersMockRecorder is the mock recorder for MockUsers.
+type MockUsersMockRecorder struct {
+	mock *MockUsers
+}
+
+// NewMockUsers creates a new mock instance.
+func NewMockUsers(ctrl *gomock.Controller) *MockUsers {
+	mock := &MockUsers{ctrl: ctrl}
+	mock.recorder = &MockUsersMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockUsers) EXPECT() *MockUsersMockRecorder {
+	return m.recorder
+}
+
+// CheckUser mocks base method.
+func (m *MockUsers) CheckUser(arg0, arg1 string, arg2 bool) (bool, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CheckUser", arg0, arg1, arg2)
+	ret0, _ := ret[0].(bool)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CheckUser indicates an expected call of CheckUser.
+func (mr *MockUsersMockRecorder) CheckUser(arg0, arg1, arg2 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckUser", reflect.TypeOf((*MockUsers)(nil).CheckUser), arg0, arg1, arg2)
+}
