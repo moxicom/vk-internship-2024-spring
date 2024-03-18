@@ -139,6 +139,7 @@ func (h *Handler) AddMovie(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// Update movie by movie id
 func (h *Handler) UpdateMovie(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("update movie request")
 	// Check movie id existance in URL
@@ -189,6 +190,7 @@ func (h *Handler) UpdateMovie(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+// Delete movie by movie id
 func (h *Handler) DeleteMovie(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("delete movie request")
 	// Check movie id existance in URL

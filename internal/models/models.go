@@ -16,7 +16,7 @@ type Actor struct {
 type Movie struct {
 	ID          int      `json:"id"`
 	Name        string   `json:"name" validate:"required"`
-	Description string   `json:"discription"` // Not required
+	Description string   `json:"description"` // Not required
 	Date        string   `json:"date" validate:"required"`
 	Rating      *float32 `json:"rating" validate:"required"` // 1-10
 }

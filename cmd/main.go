@@ -18,6 +18,11 @@ const (
 )
 
 func main() {
+	// TODO: GLOBAL MAKE TESTS!
+	// TODO: MAKE AUTH
+	// TODO: MAKE RELATIONS EDIT
+	// TODO: MAKE DOCKS
+	// TODO: KILLMYSELF
 
 	// init logger: slog
 	log := setupLogger(envLocal)
