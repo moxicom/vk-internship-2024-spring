@@ -530,6 +530,106 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/relations/": {
+            "post": {
+                "security": [
+                    {
+                        "BasicAuth": []
+                    }
+                ],
+                "description": "Add a relation between a movie and an actor.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Relations"
+                ],
+                "summary": "Add relation",
+                "parameters": [
+                    {
+                        "description": "Relation object to add",
+                        "name": "relation",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.RelationMoviesActors"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BasicAuth": []
+                    }
+                ],
+                "description": "Delete a relation between a movie and an actor.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Relations"
+                ],
+                "summary": "Delete relation",
+                "parameters": [
+                    {
+                        "description": "Relation object to delete",
+                        "name": "relation",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.RelationMoviesActors"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -648,6 +748,21 @@ const docTemplate = `{
                 "rating": {
                     "description": "1-10",
                     "type": "number"
+                }
+            }
+        },
+        "models.RelationMoviesActors": {
+            "type": "object",
+            "required": [
+                "actor_id",
+                "movie_id"
+            ],
+            "properties": {
+                "actor_id": {
+                    "type": "string"
+                },
+                "movie_id": {
+                    "type": "string"
                 }
             }
         }

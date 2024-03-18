@@ -81,6 +81,16 @@ definitions:
     - name
     - rating
     type: object
+  models.RelationMoviesActors:
+    properties:
+      actor_id:
+        type: string
+      movie_id:
+        type: string
+    required:
+    - actor_id
+    - movie_id
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -418,4 +428,67 @@ paths:
       summary: Update movie
       tags:
       - Movies
+  /relations/:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a relation between a movie and an actor.
+      parameters:
+      - description: Relation object to delete
+        in: body
+        name: relation
+        required: true
+        schema:
+          $ref: '#/definitions/models.RelationMoviesActors'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BasicAuth: []
+      summary: Delete relation
+      tags:
+      - Relations
+    post:
+      consumes:
+      - application/json
+      description: Add a relation between a movie and an actor.
+      parameters:
+      - description: Relation object to add
+        in: body
+        name: relation
+        required: true
+        schema:
+          $ref: '#/definitions/models.RelationMoviesActors'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BasicAuth: []
+      summary: Add relation
+      tags:
+      - Relations
 swagger: "2.0"
