@@ -33,6 +33,8 @@ func (s *moviesStorage) GetMovies(sortParams models.SortParams, searchParams mod
 
 	if sortParams.Sort != "" && sortParams.Order != "" {
 		query += " ORDER BY " + sortParams.Sort + " " + sortParams.Order
+	} else {
+		query += " ORDER BY m.rating DESC"
 	}
 
 	stmt, err := tx.Prepare(query)
