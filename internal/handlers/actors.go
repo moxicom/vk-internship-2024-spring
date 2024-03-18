@@ -12,6 +12,10 @@ import (
 
 var actorsPath = "/actors/"
 
+type IdResponse struct {
+	ID int `json:"id"`
+}
+
 func (h *Handler) GetActorsControler(w http.ResponseWriter, r *http.Request) {
 	idPath := r.URL.Path[len(actorsPath):]
 	if len(idPath) == 0 {
@@ -28,6 +32,17 @@ func (h *Handler) GetActorsControler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// GetActors handles the HTTP request to retrieve all actors.
+//
+// @Summary Retrieve actors
+// @Description Retrieve a list of all actors.
+// @Tags Actors
+// @Accept json
+// @Security BasicAuth
+// @Produce json
+// @Success 200 {array} []models.ActorFilms "OK"
+// @Failure 400 {object} string "Bad Request"
+// @Router /actors/ [get]
 func (h *Handler) GetActors(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("get actors request")
 	actors, err := h.service.Actors.GetActors()
@@ -49,6 +64,16 @@ func (h *Handler) GetActors(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// @Summary Retrieve actors
+// @Description Retrieve a list of all actors or a specific actor by ID.
+// @Tags Actors
+// @Param id path string false "Actor ID to retrieve (optional)"
+// @Accept json
+// @Security BasicAuth
+// @Produce json
+// @Success 200 {array} models.ActorFilms "OK"
+// @Failure 400 {object} string "Bad Request"
+// @Router /actors/{id} [get]
 func (h *Handler) GetActor(w http.ResponseWriter, r *http.Request, actorId int) {
 	h.log.Info("get actor request", "actor_id", actorId)
 	actor, err := h.service.Actors.GetActor(actorId)
@@ -71,6 +96,18 @@ func (h *Handler) GetActor(w http.ResponseWriter, r *http.Request, actorId int) 
 	}
 }
 
+// AddActor handles the HTTP request to add a new actor.
+//
+// @Summary Add actor
+// @Description Add a new actor to the database.
+// @Tags Actors
+// @Accept json
+// @Security BasicAuth
+// @Param actor body models.Actor true "Actor object to add"
+// @Produce json
+// @Success 200 {object} IdResponse "OK"
+// @Failure 400 {object} string "Bad Request"
+// @Router /actors/ [post]
 func (h *Handler) AddActor(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("add actor request")
 	// Decode JSON body
@@ -115,6 +152,19 @@ func (h *Handler) AddActor(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// UpdateActor handles the HTTP request to update an existing actor.
+//
+// @Summary Update actor
+// @Description Update an existing actor in the database.
+// @Tags Actors
+// @Accept json
+// @Security BasicAuth
+// @Param id path string true "Actor ID to update"
+// @Param actor body models.Actor true "Actor object to update"
+// @Produce json
+// @Success 200 "OK"
+// @Failure 400 {object} string "Bad Request"
+// @Router /actors/{id} [put]
 func (h *Handler) UpdateActor(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("update actors request")
 	// Check actor id existance in URL
@@ -157,6 +207,18 @@ func (h *Handler) UpdateActor(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+// DeleteActor handles the HTTP request to delete an existing actor.
+//
+// @Summary Delete actor
+// @Description Delete an existing actor from the database.
+// @Tags Actors
+// @Accept json
+// @Security BasicAuth
+// @Param id path string true "Actor ID to delete"
+// @Produce json
+// @Success 200 "OK"
+// @Failure 400 {object} string "Bad Request"
+// @Router /actors/{id} [delete]
 func (h *Handler) DeleteActor(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("delete actors request")
 	idPath := r.URL.Path[len(actorsPath):]

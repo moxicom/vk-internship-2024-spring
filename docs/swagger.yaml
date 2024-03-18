@@ -1,18 +1,185 @@
-basePath: /v2
-host: petstore.swagger.io
+basePath: /
+definitions:
+  handlers.IdResponse:
+    properties:
+      id:
+        type: integer
+    type: object
+  models.Actor:
+    properties:
+      birthday:
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    required:
+    - birthday
+    - gender
+    - name
+    type: object
+  models.ActorFilms:
+    properties:
+      birthday:
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+      movies:
+        items:
+          type: integer
+        type: array
+      name:
+        type: string
+    required:
+    - birthday
+    - gender
+    - name
+    type: object
+host: localhost:8080
 info:
-  contact:
-    email: support@swagger.io
-    name: API Support
-    url: http://www.swagger.io/support
-  description: This is a sample server Petstore server.
-  license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-  termsOfService: http://swagger.io/terms/
-  title: Swagger Example API
+  contact: {}
+  description: REST API for managing a movie database.
+  title: Movie Database API
   version: "1.0"
 paths:
+  /actors/:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of all actors.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/models.ActorFilms'
+              type: array
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      security:
+      - BasicAuth: []
+      summary: Retrieve actors
+      tags:
+      - Actors
+    post:
+      consumes:
+      - application/json
+      description: Add a new actor to the database.
+      parameters:
+      - description: Actor object to add
+        in: body
+        name: actor
+        required: true
+        schema:
+          $ref: '#/definitions/models.Actor'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.IdResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      security:
+      - BasicAuth: []
+      summary: Add actor
+      tags:
+      - Actors
+  /actors/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing actor from the database.
+      parameters:
+      - description: Actor ID to delete
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      security:
+      - BasicAuth: []
+      summary: Delete actor
+      tags:
+      - Actors
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a list of all actors or a specific actor by ID.
+      parameters:
+      - description: Actor ID to retrieve (optional)
+        in: path
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ActorFilms'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      security:
+      - BasicAuth: []
+      summary: Retrieve actors
+      tags:
+      - Actors
+    put:
+      consumes:
+      - application/json
+      description: Update an existing actor in the database.
+      parameters:
+      - description: Actor ID to update
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Actor object to update
+        in: body
+        name: actor
+        required: true
+        schema:
+          $ref: '#/definitions/models.Actor'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      security:
+      - BasicAuth: []
+      summary: Update actor
+      tags:
+      - Actors
   /hello:
     get:
       description: Get a greeting message
