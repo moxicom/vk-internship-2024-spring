@@ -5,7 +5,9 @@ import (
 	"net/http"
 	"time"
 
+	_ "github.com/moxicom/vk-internship-2024-spring/docs"
 	"github.com/moxicom/vk-internship-2024-spring/internal/service"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 type Handler struct {
@@ -33,6 +35,14 @@ func Run(logger *slog.Logger, s *service.Service) error {
 
 func (h *Handler) InitRoutes() *http.ServeMux {
 	mux := http.NewServeMux()
+	mux.HandleFunc("/swagger/",
+		httpSwagger.Handler(
+			httpSwagger.URL("/swagger/doc.json"),
+			httpSwagger.DeepLinking(true),
+			httpSwagger.DocExpansion("none"),
+			httpSwagger.DomID("swagger-ui"),
+		),
+	)
 	mux.HandleFunc("/actors/", h.actorsMainHandler)
 	mux.HandleFunc("/movies/", h.moviesMainHandler)
 	mux.HandleFunc("/relations/", h.relationsMainHandler)

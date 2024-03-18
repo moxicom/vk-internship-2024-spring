@@ -9,6 +9,12 @@ import (
 	"github.com/moxicom/vk-internship-2024-spring/internal/utils"
 )
 
+// @Summary Say hello
+// @Description Get a greeting message
+// @ID get-hello
+// @Produce  plain
+// @Success 200 {string} string	"Hello, world!"
+// @Router /hello [get]
 func (h *Handler) AddRelation(w http.ResponseWriter, r *http.Request) {
 	var rel models.RelationMoviesActors
 	err := json.NewDecoder(r.Body).Decode(&rel)
