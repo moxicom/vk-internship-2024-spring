@@ -12,7 +12,7 @@ import (
 
 var moviesPath = "/movies/"
 
-func (h *Handler) getMoviesController(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) GetMoviesController(w http.ResponseWriter, r *http.Request) {
 	idPath := r.URL.Path[len(moviesPath):]
 	if len(idPath) == 0 {
 		// get all movies

@@ -53,7 +53,7 @@ func TestMoviesStorage_GetMovies(t *testing.T) {
 
 			},
 			result: []models.MovieActors{
-				models.MovieActors{
+				{
 					Movie: models.Movie{
 						ID:          1,
 						Name:        "interstellar",

@@ -61,7 +61,7 @@ func (h *Handler) actorsMainHandler(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) moviesMainHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		h.getMoviesController(w, r)
+		h.GetMoviesController(w, r)
 	default:
 		h.withMiddleware(w, r, func(w http.ResponseWriter, r *http.Request) {
 			switch r.Method {
