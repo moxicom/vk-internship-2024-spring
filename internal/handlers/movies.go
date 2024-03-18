@@ -29,6 +29,22 @@ func (h *Handler) GetMoviesController(w http.ResponseWriter, r *http.Request) {
 }
 
 // QUERY PARAMETERS: SORT, ORDER, NAME, ACTOR_NAME
+// GetMovies handles the HTTP request to retrieve movies with optional sorting and filtering.
+//
+// @Summary Retrieve movies
+// @Description Retrieve a list of movies with optional sorting and filtering.
+// @Tags Movies
+// @Accept json
+// @Produce json
+// @Param sort query string false "Sort parameter: valid values are 'name', 'date', 'rating' (default: 'rating')"
+// @Param order query string false "Order parameter: valid values are 'asc', 'desc' (default: 'desc')"
+// @Param movie_name query string false "Search movies by name (optional)"
+// @Param actor_name query string false "Search movies by actor name (optional)"
+// @Security BasicAuth
+// @Success 200 {array} []models.MovieActors "OK"
+// @Failure 400 {object} string "Bad Request"
+// @Failure 500 {object} string "Internal Server Error"
+// @Router /movies/ [get]
 func (h *Handler) GetMovies(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("get movies request")
 	// Get sort params
@@ -67,6 +83,19 @@ func (h *Handler) GetMovies(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// GetMovie handles the HTTP request to retrieve a specific movie by ID.
+//
+// @Summary Retrieve movie
+// @Description Retrieve a specific movie by ID.
+// @Tags Movies
+// @Accept json
+// @Produce json
+// @Param id path int true "Movie ID to retrieve"
+// @Security BasicAuth
+// @Success 200 {object} models.MovieActors "OK"
+// @Failure 400 {object} string "Bad Request"
+// @Failure 500 {object} string "Internal Server Error"
+// @Router /movies/{id} [get]
 func (h *Handler) GetMovie(w http.ResponseWriter, r *http.Request, movieId int) {
 	h.log.Info("get movie request", "movie_id", movieId)
 	movie, err := h.service.Movies.GetMovie(movieId)
@@ -85,6 +114,19 @@ func (h *Handler) GetMovie(w http.ResponseWriter, r *http.Request, movieId int) 
 	}
 }
 
+// AddMovie handles the HTTP request to add a new movie to the database.
+//
+// @Summary Add movie
+// @Description Add a new movie to the database.
+// @Tags Movies
+// @Accept json
+// @Produce json
+// @Param movie body models.Movie true "Movie object to add"
+// @Security BasicAuth
+// @Success 200 {object} IdResponse "OK"
+// @Failure 400 {object} string "Bad Request"
+// @Failure 500 {object} string "Internal Server Error"
+// @Router /movies/ [post]
 func (h *Handler) AddMovie(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("add movie request")
 	// Decode JSON body
@@ -140,6 +182,20 @@ func (h *Handler) AddMovie(w http.ResponseWriter, r *http.Request) {
 }
 
 // Update movie by movie id
+// UpdateMovie handles the HTTP request to update an existing movie by its ID.
+//
+// @Summary Update movie
+// @Description Update an existing movie by its ID.
+// @Tags Movies
+// @Accept json
+// @Produce json
+// @Param id path int true "Movie ID to update"
+// @Param movie body models.Movie true "Updated movie object"
+// @Security BasicAuth
+// @Success 200 {string} string "OK"
+// @Failure 400 {object} string "Bad Request"
+// @Failure 500 {object} string "Internal Server Error"
+// @Router /movies/{id} [put]
 func (h *Handler) UpdateMovie(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("update movie request")
 	// Check movie id existance in URL
@@ -180,7 +236,19 @@ func (h *Handler) UpdateMovie(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-// Delete movie by movie id
+// DeleteMovie handles the HTTP request to delete a movie by its ID.
+//
+// @Summary Delete movie
+// @Description Delete a movie by its ID.
+// @Tags Movies
+// @Accept json
+// @Produce json
+// @Param id path int true "Movie ID to delete"
+// @Security BasicAuth
+// @Success 200 {string} string "OK"
+// @Failure 400 {object} string "Bad Request"
+// @Failure 500 {object} string "Internal Server Error"
+// @Router /movies/{id} [delete]
 func (h *Handler) DeleteMovie(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("delete movie request")
 	// Check movie id existance in URL

@@ -35,3 +35,13 @@ type RelationMoviesActors struct {
 	MovieID string `json:"movie_id" validate:"required"`
 	ActorID string `json:"actor_id" validate:"required"`
 }
+
+type ActorFilms struct {
+	Actor
+	Movies []int `json:"movies"`
+}
+
+type MovieActors struct {
+	Movie
+	Actors []int `json:"actors"`
+}

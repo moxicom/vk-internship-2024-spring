@@ -42,6 +42,7 @@ func (h *Handler) GetActorsControler(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Success 200 {array} []models.ActorFilms "OK"
 // @Failure 400 {object} string "Bad Request"
+// @Failure 500 {object} string "Internal Server Error"
 // @Router /actors/ [get]
 func (h *Handler) GetActors(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("get actors request")
@@ -73,6 +74,7 @@ func (h *Handler) GetActors(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Success 200 {array} models.ActorFilms "OK"
 // @Failure 400 {object} string "Bad Request"
+// @Failure 500 {object} string "Internal Server Error"
 // @Router /actors/{id} [get]
 func (h *Handler) GetActor(w http.ResponseWriter, r *http.Request, actorId int) {
 	h.log.Info("get actor request", "actor_id", actorId)
@@ -107,6 +109,7 @@ func (h *Handler) GetActor(w http.ResponseWriter, r *http.Request, actorId int) 
 // @Produce json
 // @Success 200 {object} IdResponse "OK"
 // @Failure 400 {object} string "Bad Request"
+// @Failure 500 {object} string "Internal Server Error"
 // @Router /actors/ [post]
 func (h *Handler) AddActor(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("add actor request")
@@ -164,6 +167,7 @@ func (h *Handler) AddActor(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Success 200 "OK"
 // @Failure 400 {object} string "Bad Request"
+// @Failure 500 {object} string "Internal Server Error"
 // @Router /actors/{id} [put]
 func (h *Handler) UpdateActor(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("update actors request")
@@ -218,6 +222,7 @@ func (h *Handler) UpdateActor(w http.ResponseWriter, r *http.Request) {
 // @Produce json
 // @Success 200 "OK"
 // @Failure 400 {object} string "Bad Request"
+// @Failure 500 {object} string "Internal Server Error"
 // @Router /actors/{id} [delete]
 func (h *Handler) DeleteActor(w http.ResponseWriter, r *http.Request) {
 	h.log.Info("delete actors request")

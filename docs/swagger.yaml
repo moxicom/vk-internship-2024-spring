@@ -39,6 +39,48 @@ definitions:
     - gender
     - name
     type: object
+  models.Movie:
+    properties:
+      date:
+        type: string
+      description:
+        description: Not required
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      rating:
+        description: 1-10
+        type: number
+    required:
+    - date
+    - name
+    - rating
+    type: object
+  models.MovieActors:
+    properties:
+      actors:
+        items:
+          type: integer
+        type: array
+      date:
+        type: string
+      description:
+        description: Not required
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      rating:
+        description: 1-10
+        type: number
+    required:
+    - date
+    - name
+    - rating
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -64,6 +106,10 @@ paths:
             type: array
         "400":
           description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
           schema:
             type: string
       security:
@@ -93,6 +139,10 @@ paths:
           description: Bad Request
           schema:
             type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
       security:
       - BasicAuth: []
       summary: Add actor
@@ -116,6 +166,10 @@ paths:
           description: OK
         "400":
           description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
           schema:
             type: string
       security:
@@ -143,6 +197,10 @@ paths:
             type: array
         "400":
           description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
           schema:
             type: string
       security:
@@ -175,21 +233,189 @@ paths:
           description: Bad Request
           schema:
             type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
       security:
       - BasicAuth: []
       summary: Update actor
       tags:
       - Actors
-  /hello:
+  /movies/:
     get:
-      description: Get a greeting message
-      operationId: get-hello
+      consumes:
+      - application/json
+      description: Retrieve a list of movies with optional sorting and filtering.
+      parameters:
+      - description: 'Sort parameter: valid values are ''name'', ''date'', ''rating''
+          (default: ''rating'')'
+        in: query
+        name: sort
+        type: string
+      - description: 'Order parameter: valid values are ''asc'', ''desc'' (default:
+          ''desc'')'
+        in: query
+        name: order
+        type: string
+      - description: Search movies by name (optional)
+        in: query
+        name: movie_name
+        type: string
+      - description: Search movies by actor name (optional)
+        in: query
+        name: actor_name
+        type: string
       produces:
-      - text/plain
+      - application/json
       responses:
         "200":
-          description: Hello, world!
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/models.MovieActors'
+              type: array
+            type: array
+        "400":
+          description: Bad Request
           schema:
             type: string
-      summary: Say hello
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BasicAuth: []
+      summary: Retrieve movies
+      tags:
+      - Movies
+    post:
+      consumes:
+      - application/json
+      description: Add a new movie to the database.
+      parameters:
+      - description: Movie object to add
+        in: body
+        name: movie
+        required: true
+        schema:
+          $ref: '#/definitions/models.Movie'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.IdResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BasicAuth: []
+      summary: Add movie
+      tags:
+      - Movies
+  /movies/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a movie by its ID.
+      parameters:
+      - description: Movie ID to delete
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BasicAuth: []
+      summary: Delete movie
+      tags:
+      - Movies
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific movie by ID.
+      parameters:
+      - description: Movie ID to retrieve
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.MovieActors'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BasicAuth: []
+      summary: Retrieve movie
+      tags:
+      - Movies
+    put:
+      consumes:
+      - application/json
+      description: Update an existing movie by its ID.
+      parameters:
+      - description: Movie ID to update
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated movie object
+        in: body
+        name: movie
+        required: true
+        schema:
+          $ref: '#/definitions/models.Movie'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BasicAuth: []
+      summary: Update movie
+      tags:
+      - Movies
 swagger: "2.0"
