@@ -776,7 +776,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Movie Database API",
-	Description:      "REST API for managing a movie database.",
+	Description:      "REST API for managing a movie database. BASIC AUTHENTICATION REQUIRED. DEFAULTS:\nusername: userAdmin\npassword: password\nusername: user\npassword: password",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

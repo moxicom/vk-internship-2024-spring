@@ -94,7 +94,12 @@ definitions:
 host: localhost:8080
 info:
   contact: {}
-  description: REST API for managing a movie database.
+  description: |-
+    REST API for managing a movie database. BASIC AUTHENTICATION REQUIRED. DEFAULTS:
+    username: userAdmin
+    password: password
+    username: user
+    password: password
   title: Movie Database API
   version: "1.0"
 paths:

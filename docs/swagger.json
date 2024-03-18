@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "REST API for managing a movie database.",
+        "description": "REST API for managing a movie database. BASIC AUTHENTICATION REQUIRED. DEFAULTS:\nusername: userAdmin\npassword: password\nusername: user\npassword: password",
         "title": "Movie Database API",
         "contact": {},
         "version": "1.0"

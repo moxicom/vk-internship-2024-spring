@@ -19,7 +19,11 @@ const (
 
 // @title Movie Database API
 // @version 1.0
-// @description REST API for managing a movie database.
+// @description REST API for managing a movie database. BASIC AUTHENTICATION REQUIRED. DEFAULTS:
+// @description username: userAdmin
+// @description password: password
+// @description username: user
+// @description password: password
 
 // @securityDefinitions.basicAuth
 // type: basic
