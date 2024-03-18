@@ -42,9 +42,9 @@ func (h *Handler) InitRoutes() *http.ServeMux {
 func (h *Handler) actorsMainHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		h.GetActorsControler(w, r)
+		h.isBasicUserAuth(w, r, h.GetActorsControler)
 	default:
-		h.withMiddleware(w, r, func(w http.ResponseWriter, r *http.Request) {
+		h.isAdminAuth(w, r, func(w http.ResponseWriter, r *http.Request) {
 			switch r.Method {
 			case http.MethodPost:
 				h.AddActor(w, r)
@@ -62,9 +62,9 @@ func (h *Handler) actorsMainHandler(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) moviesMainHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		h.GetMoviesController(w, r)
+		h.isBasicUserAuth(w, r, h.GetMoviesController)
 	default:
-		h.withMiddleware(w, r, func(w http.ResponseWriter, r *http.Request) {
+		h.isAdminAuth(w, r, func(w http.ResponseWriter, r *http.Request) {
 			switch r.Method {
 			case http.MethodPost:
 				h.AddMovie(w, r)
@@ -82,15 +82,10 @@ func (h *Handler) moviesMainHandler(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) relationsMainHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodDelete:
-		h.DeleteRelation(w, r)
+		h.isAdminAuth(w, r, h.DeleteRelation)
 	case http.MethodPost:
-		h.AddRelation(w, r)
+		h.isAdminAuth(w, r, h.AddRelation)
 	default:
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 	}
-}
-
-func (h *Handler) withMiddleware(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-	h.log.Info("middleware")
-	next(w, r)
 }
