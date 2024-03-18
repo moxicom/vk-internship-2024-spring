@@ -23,14 +23,21 @@ type Movies interface {
 	DeleteMovie(int) error
 }
 
+type Relations interface {
+	AddRelation(models.RelationMoviesActors) error
+	DeleteRelation(models.RelationMoviesActors) error
+}
+
 type Service struct {
 	Actors
 	Movies
+	Relations
 }
 
 func New(s *storage.Repository) *Service {
 	return &Service{
-		Actors: newActorsService(s),
-		Movies: newMoviesService(s),
+		Actors:    newActorsService(s),
+		Movies:    newMoviesService(s),
+		Relations: newRelationsService(s),
 	}
 }

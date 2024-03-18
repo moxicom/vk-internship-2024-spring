@@ -202,3 +202,54 @@ func (mr *MockMoviesMockRecorder) UpdateMovie(arg0, arg1 interface{}) *gomock.Ca
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateMovie", reflect.TypeOf((*MockMovies)(nil).UpdateMovie), arg0, arg1)
 }
+
+// MockRelations is a mock of Relations interface.
+type MockRelations struct {
+	ctrl     *gomock.Controller
+	recorder *MockRelationsMockRecorder
+}
+
+// MockRelationsMockRecorder is the mock recorder for MockRelations.
+type MockRelationsMockRecorder struct {
+	mock *MockRelations
+}
+
+// NewMockRelations creates a new mock instance.
+func NewMockRelations(ctrl *gomock.Controller) *MockRelations {
+	mock := &MockRelations{ctrl: ctrl}
+	mock.recorder = &MockRelationsMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockRelations) EXPECT() *MockRelationsMockRecorder {
+	return m.recorder
+}
+
+// AddRelation mocks base method.
+func (m *MockRelations) AddRelation(arg0 models.RelationMoviesActors) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AddRelation", arg0)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AddRelation indicates an expected call of AddRelation.
+func (mr *MockRelationsMockRecorder) AddRelation(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddRelation", reflect.TypeOf((*MockRelations)(nil).AddRelation), arg0)
+}
+
+// DeleteRelation mocks base method.
+func (m *MockRelations) DeleteRelation(arg0 models.RelationMoviesActors) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteRelation", arg0)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteRelation indicates an expected call of DeleteRelation.
+func (mr *MockRelationsMockRecorder) DeleteRelation(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRelation", reflect.TypeOf((*MockRelations)(nil).DeleteRelation), arg0)
+}

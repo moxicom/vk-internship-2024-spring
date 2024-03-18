@@ -30,3 +30,8 @@ type SearchParams struct {
 	MovieName string
 	ActorName string
 }
+
+type RelationMoviesActors struct {
+	MovieID string `json:"movie_id" validate:"required"`
+	ActorID string `json:"actor_id" validate:"required"`
+}

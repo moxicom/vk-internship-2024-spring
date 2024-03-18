@@ -35,6 +35,7 @@ func (h *Handler) InitRoutes() *http.ServeMux {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/actors/", h.actorsMainHandler)
 	mux.HandleFunc("/movies/", h.moviesMainHandler)
+	mux.HandleFunc("/relations/", h.relationsMainHandler)
 	return mux
 }
 
@@ -75,6 +76,17 @@ func (h *Handler) moviesMainHandler(w http.ResponseWriter, r *http.Request) {
 				http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 			}
 		})
+	}
+}
+
+func (h *Handler) relationsMainHandler(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodDelete:
+		h.DeleteRelation(w, r)
+	case http.MethodPost:
+		h.AddRelation(w, r)
+	default:
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 	}
 }
 
