@@ -1,4 +1,4 @@
-package actors_storage_test
+package movies_storage_test
 
 import (
 	"errors"
@@ -7,64 +7,62 @@ import (
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/moxicom/vk-internship-2024-spring/internal/models"
-	"github.com/moxicom/vk-internship-2024-spring/internal/storage/postgres/actors_storage"
+	"github.com/moxicom/vk-internship-2024-spring/internal/storage/postgres/movies_storage"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestActorsStorage_UpdateActor(t *testing.T) {
+func TestMoviesStorage_UpdateMovie(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()
 
-	r := actors_storage.New(db)
+	r := movies_storage.New(db)
 
 	type args struct {
-		actorId int
-		actor   models.Actor
+		movieId int
+		movie   models.Movie
 	}
 
-	type mockBehavior func(args args, id int)
+	type mockBehavior func(args args)
 
 	testTable := []struct {
 		name         string
-		args         args
 		mockBehavior mockBehavior
+		args         args
 		wantError    bool
 	}{
 		{
 			name: "OK",
 			args: args{
-				actorId: 1,
-				actor: models.Actor{
-					Name:   "Alexander",
-					Gender: "male",
+				movie: models.Movie{
+					Name: "New name",
 				},
 			},
-			mockBehavior: func(args args, id int) {
+			mockBehavior: func(args args) {
 				mock.ExpectBegin()
 				mock.ExpectPrepare("UPDATE").
 					ExpectExec().
-					WithArgs(args.actor.Name, args.actor.Gender, args.actorId).
+					WithArgs(args.movie.Name, args.movieId).
 					WillReturnResult(sqlmock.NewResult(1, 1))
 				mock.ExpectCommit()
 			},
 			wantError: false,
 		},
 		{
-			name: "No fields to update",
+			name: "UpdateErr",
 			args: args{
-				actorId: 1,
-				actor:   models.Actor{},
+				movie: models.Movie{
+					Name: "New name",
+				},
 			},
-			mockBehavior: func(args args, id int) {
+			mockBehavior: func(args args) {
 				mock.ExpectBegin()
 				mock.ExpectPrepare("UPDATE").
 					ExpectExec().
-					WithArgs(args.actor.Name, args.actor.Gender, args.actorId).
-					WillReturnError(errors.New("no fields to update"))
-				mock.ExpectRollback()
+					WithArgs(args.movie.Name, args.movieId).
+					WillReturnError(errors.New("insert error"))
 			},
 			wantError: true,
 		},
@@ -72,8 +70,8 @@ func TestActorsStorage_UpdateActor(t *testing.T) {
 
 	for _, testCase := range testTable {
 		t.Run(testCase.name, func(t *testing.T) {
-			testCase.mockBehavior(testCase.args, 1)
-			err := r.UpdateActor(testCase.args.actorId, testCase.args.actor)
+			testCase.mockBehavior(testCase.args)
+			err := r.UpdateMovie(testCase.args.movieId, testCase.args.movie)
 			if testCase.wantError {
 				assert.Error(t, err)
 			} else {

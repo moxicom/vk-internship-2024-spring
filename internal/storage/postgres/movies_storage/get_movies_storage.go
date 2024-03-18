@@ -6,7 +6,7 @@ import (
 	"github.com/moxicom/vk-internship-2024-spring/internal/models"
 )
 
-func (s *moviesStorage) GetMovies(sortParams models.SortParams, searchParams models.SearchParams) ([]models.MovieActors, error) {
+func (s *MoviesStorage) GetMovies(sortParams models.SortParams, searchParams models.SearchParams) ([]models.MovieActors, error) {
 	tx, err := s.db.Begin()
 	if err != nil {
 		return nil, err
@@ -71,7 +71,7 @@ func (s *moviesStorage) GetMovies(sortParams models.SortParams, searchParams mod
 	return movies, nil
 }
 
-func (s *moviesStorage) GetMovieActors(movieId int) ([]int, error) {
+func (s *MoviesStorage) GetMovieActors(movieId int) ([]int, error) {
 	actorsRows, err := s.db.Query("SELECT actor_id from movie_actors WHERE movie_id=$1", movieId)
 	if err != nil {
 		return []int{}, err

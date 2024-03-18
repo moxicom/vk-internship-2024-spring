@@ -2,7 +2,7 @@ package movies_storage
 
 import "github.com/moxicom/vk-internship-2024-spring/internal/models"
 
-func (s *moviesStorage) AddMovie(movie models.Movie) (int, error) {
+func (s *MoviesStorage) AddMovie(movie models.Movie) (int, error) {
 	var id int
 	tx, err := s.db.Begin()
 	if err != nil {

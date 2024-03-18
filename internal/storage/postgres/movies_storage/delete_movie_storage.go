@@ -1,6 +1,6 @@
 package movies_storage
 
-func (s *moviesStorage) DeleteMovie(movieId int) error {
+func (s *MoviesStorage) DeleteMovie(movieId int) error {
 	tx, err := s.db.Begin()
 	if err != nil {
 		return err

@@ -4,7 +4,7 @@ import (
 	"github.com/moxicom/vk-internship-2024-spring/internal/models"
 )
 
-func (s *moviesStorage) GetMovie(movieId int) (models.MovieActors, error) {
+func (s *MoviesStorage) GetMovie(movieId int) (models.MovieActors, error) {
 	query := `SELECT movie_id, name, description, date, rating FROM movies WHERE movie_id = $1`
 	row := s.db.QueryRow(query, movieId)
 	movie := models.MovieActors{}

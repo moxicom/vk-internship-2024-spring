@@ -2,10 +2,10 @@ package movies_storage
 
 import "database/sql"
 
-type moviesStorage struct {
+type MoviesStorage struct {
 	db *sql.DB
 }
 
-func New(db *sql.DB) *moviesStorage {
-	return &moviesStorage{db}
+func New(db *sql.DB) *MoviesStorage {
+	return &MoviesStorage{db}
 }

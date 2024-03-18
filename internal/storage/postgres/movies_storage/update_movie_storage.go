@@ -7,7 +7,7 @@ import (
 	"github.com/moxicom/vk-internship-2024-spring/internal/models"
 )
 
-func (s *moviesStorage) UpdateMovie(movieId int, movie models.Movie) error {
+func (s *MoviesStorage) UpdateMovie(movieId int, movie models.Movie) error {
 	tx, err := s.db.Begin()
 	if err != nil {
 		return err
